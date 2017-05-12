@@ -2,40 +2,35 @@ import pymysql
 from pymysql import IntegrityError
 
 
-class Database:
-    host = 'localhost'
-    user = 'root'
-    password = ''
-    db = ''
-    charset = 'utf8'
+host = 'localhost'
+user = 'root'
+password = 'uursty199'
+db = 'daejeon_people'
+charset = 'utf8'
 
-    _instance = None
 
-    def __init__(self):
-        self.connection = None
+def execute(*args):
+    connection = pymysql.connect(host=host,
+                                 user=user,
+                                 password=password,
+                                 db=db,
+                                 charset=charset)
+    cursor = connection.cursor(pymysql.cursors.DictCursor)
+    query = ''
+    for arg in args:
+        query += arg
 
-    def execute(self, *args):
-        self.connection = pymysql.connect(host=self.host,
-                                          user=self.user,
-                                          password=self.password,
-                                          db=self.db,
-                                          charset=self.charset)
-        cursor = self.connection.cursor(pymysql.cursors.DictCursor)
-        query = ''
-        for arg in args:
-            query += arg
+    try:
+        if 'SELECT' in query or 'select' in query:
+            cursor.execute(query)
+            result = cursor.fetchall()
+        else:
+            cursor.execute(query)
+            result = connection.commit()
 
-        try:
-            if 'SELECT' in query or 'select' in query:
-                cursor.execute(query)
-                result = cursor.fetchall()
-            else:
-                cursor.execute(query)
-                result = self.connection.commit()
+        cursor.close()
+        connection.close()
 
-            cursor.close()
-            self.connection.close()
-
-            return result
-        except IntegrityError as e:
-            print(e)
+        return result
+    except IntegrityError as e:
+        print(e)
