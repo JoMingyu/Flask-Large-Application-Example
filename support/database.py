@@ -4,8 +4,8 @@ from pymysql import IntegrityError
 
 host = 'localhost'
 user = 'root'
-password = 'uursty199'
-db = 'daejeon_people'
+password = ''
+db = ''
 charset = 'utf8'
 
 

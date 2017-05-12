@@ -1,10 +1,12 @@
 from flask import Flask
 from flask_restful import Api
-from support import database
+from restful_modules import sample
 
 
 app = Flask(__name__)
 api = Api(app)
+
+api.add_resource(sample.Sample, '/sample')
 
 
 if '__main__' == __name__:
