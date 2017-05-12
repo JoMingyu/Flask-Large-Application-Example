@@ -4,6 +4,9 @@ from support import database
 from support import firebase
 
 
+result = firebase.notify_topic_subscribers('asdf', 'asdfxcvz', 'abcd')
+print(result)
+
 app = Flask(__name__)
 api = Api(app)
 
