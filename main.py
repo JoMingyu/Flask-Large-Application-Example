@@ -1,6 +1,8 @@
 from flask import Flask
 from flask_restful import Api
 from support import database
+from support import firebase
+
 
 app = Flask(__name__)
 api = Api(app)
