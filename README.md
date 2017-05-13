@@ -6,7 +6,3 @@
 	flask-restful
 	pymysql
 	pyfcm
-	pycrypto
-### pycrypto 모듈 오류 발생 시
-Microsoft Visual C++ Build Tools
-<http://landinghub.visualstudio.com/visual-cpp-build-tools>
