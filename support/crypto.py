@@ -1,16 +1,24 @@
-import base64
+from cryptography.fernet import Fernet
 import hashlib
 
-
-def base64_encode(s):
-    return base64.b64encode(bytes(s, 'utf-8')).decode('utf-8')
+key = b''
 
 
-def base64_decode(s):
-    return base64.b64decode(bytes(s, 'utf-8')).decode('utf-8')
+def fernet_encrypt(s):
+    cipher_suite = Fernet(key)
+    return cipher_suite.encrypt(s.encode('utf-8')).decode('utf-8')
+
+
+def fernet_decrypt(s):
+    cipher_suite = Fernet(key)
+    return cipher_suite.decrypt(s.encode('utf-8')).decode('utf-8')
 
 
 def sha512_encrypt(s):
     h = hashlib.sha512()
     h.update(s.encode('utf-8'))
     return h.hexdigest()
+
+
+def generate_key():
+    print(Fernet.generate_key())

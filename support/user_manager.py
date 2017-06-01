@@ -12,7 +12,11 @@ def get_encrypted_id_from_session(request, session, key):
         # Session exists
         session_id = session[key]
 
+    # Session id : plain text
+
     result = database.execute("SELECT id FROM account WHERE session_id='", crypto.sha512_encrypt(session_id), "'")
+    # Encrypted session id
+
     return result[0]['id']
 
 
