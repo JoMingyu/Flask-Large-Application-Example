@@ -4,8 +4,8 @@ import smtplib
 from email.mime.text import MIMEText
 
 from_email = ''
-smtp_host = 'smtp.naver.com'
-smtp_port = 587
+smtp_host = ''
+smtp_port = 0
 smtp_id = ''
 smtp_pw = ''
 
