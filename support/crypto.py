@@ -1,7 +1,7 @@
 from cryptography.fernet import Fernet
 import hashlib
 
-key = b''
+key = b'wWX4VyWSzKifCA-kZ_9j4y9LjRc5iGxVH_6AgDUBQXs='
 
 
 def fernet_encrypt(s):
@@ -22,3 +22,4 @@ def sha512_encrypt(s):
 
 def generate_key():
     print(Fernet.generate_key())
+

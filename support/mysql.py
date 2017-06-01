@@ -3,7 +3,7 @@ from pymysql import IntegrityError
 
 
 host = 'localhost'
-user = 'root'
+user = ''
 password = ''
 db = ''
 charset = 'utf8'

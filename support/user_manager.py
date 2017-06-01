@@ -1,5 +1,5 @@
 from flask import make_response
-from support import database, crypto
+from support import mysql, crypto
 
 
 def get_encrypted_id_from_session(request, session, key):
@@ -14,7 +14,7 @@ def get_encrypted_id_from_session(request, session, key):
 
     # Session id : plain text
 
-    result = database.execute("SELECT id FROM account WHERE session_id='", crypto.sha512_encrypt(session_id), "'")
+    result = mysql.execute("SELECT id FROM account WHERE session_id='", crypto.sha512_encrypt(session_id), "'")
     # Encrypted session id
 
     return result[0]['id']
@@ -34,6 +34,6 @@ def remove_session(request, session, key):
         # Session exists
         session.pop(key, None)
 
-    database.execute("UPDATE account SET session_id=null WHERE id='", encrypted_id, "'")
+    mysql.execute("UPDATE account SET session_id=null WHERE id='", encrypted_id, "'")
 
     return response
