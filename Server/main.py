@@ -1,9 +1,17 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
+from flask_mongoengine import MongoEngine
+# from flask_sqlalchemy import SQLAlchemy
 
 import config as cf
-import logger
+from logger import Logger
+
+cors = CORS()
+jwt = JWTManager()
+db = MongoEngine()
+# db = SQLAlchemy()
+logger = Logger()
 
 
 def create_app(config_name):
@@ -14,10 +22,10 @@ def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(cf.config[config_name])
 
-    CORS(app)
-    JWTManager(app)
-
-    logger.decorate(app)
+    cors.init_app(app)
+    jwt.init_app(app)
+    db.init_app(app)
+    logger.init_app(app)
 
     from blueprints import all_blueprints
     for bp in all_blueprints:
