@@ -6,7 +6,8 @@ from datetime import timedelta
 class Config:
     HOST, PORT = socket.gethostbyname(socket.gethostname()), 3003
 
-    SECRET_KEY = os.getenv('SECRET_KEY')
+    SECRET_KEY = os.getenv('SECRET_KEY', '85c145a16bd6f6e1f3e104ca78c6a102')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(days=7)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=60)
@@ -29,9 +30,21 @@ class Config:
 class DevConfig(Config):
     DEBUG = True
 
+    MONGODB_SETTINGS = {
+        'db': 'quickstart.dev',
+        'host': 'localhost',
+    }
+    # Port : default 27017
+
 
 class ProductionConfig(Config):
     DEBUG = False
+
+    MONGODB_SETTINGS = {
+        'db': 'quickstart.production',
+        'host': 'localhost',
+    }
+    # Port : default 27017
 
 
 config = {
