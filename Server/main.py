@@ -8,15 +8,27 @@ import config as cf
 from logger import Logger
 
 cors = CORS()
+# To Swagger, or Support AJAX
+
 jwt = JWTManager()
+# To JWT Authentication
+
 db = MongoEngine()
+# To MongoDB Control
+
 # db = SQLAlchemy()
+# To Database Control
+
 logger = Logger()
+# To log in every context of Flask
 
 
 def create_app(config_name):
     """
     Creates Flask instance & initialize
+
+    Came from 'Use Application Factory' : http://slides.skien.cc/flask-hacks-and-best-practices/#7
+
     :rtype: Flask
     """
     app = Flask(__name__)

@@ -4,7 +4,7 @@ from logging.handlers import RotatingFileHandler
 from flask import Flask, current_app, request
 
 
-class Logger:
+class Logger(object):
     def __init__(self, app=None):
         if app is not None:
             self.init_app(app)
