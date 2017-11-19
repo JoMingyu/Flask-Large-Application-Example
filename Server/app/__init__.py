@@ -1,24 +1,17 @@
 from flask import Flask
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager
-from flask_mongoengine import MongoEngine
 
-from blueprints import Blueprints
-from logger import Logger
+from middleware import Logger
+from app.models import Mongo
 
 cors = CORS()
 # To Swagger, or Support AJAX
 
-jwt = JWTManager()
-# To JWT Authentication
-
-db = MongoEngine()
-# To Control MongoDB
-
-blueprints = Blueprints()
-
 logger = Logger()
 # To log in every context of Flask
+
+db = Mongo()
+# To Control MongoDB
 
 
 def create_app(config_name):
@@ -37,11 +30,9 @@ def create_app(config_name):
     app_.config.from_pyfile(config_name)
 
     cors.init_app(app_)
-    jwt.init_app(app_)
-    db.init_app(app_)
-    blueprints.init_app(app_)
     logger.init_app(app_)
+    db.init_app(app_)
 
     return app_
 
-app = create_app('../config/development.py')
+app = create_app('../config/dev.py')
