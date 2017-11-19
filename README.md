@@ -23,31 +23,3 @@ Google과 GitHub의 수많은 Best Practice들과 예제들을 분석하며 만�
 <a href="https://stackoverflow.com/questions/14415500/common-folder-file-structure-in-flask-app">StackOverflow - Common folder/file structure in Flask app</a>
 ### Presentation
 <a href="http://slides.skien.cc/flask-hacks-and-best-practices/">Flask Hacks and Best Practices</a>
-
-## Structure
-~~~
-application/
-    |- server.py            # 서버의 부팅 스크립트
-    |- app/
-        |- __init__.py
-        |- docs/
-            |- __init__.py
-        |- models/
-            |- __init__.py
-        |- views/
-            |- __init__.py
-        |- static/              # 정적 파일
-            |- css/
-            |- js/
-            |- img/
-        |- templates/
-    |- config/              # 설정 파일
-        |- __init__.py
-        |- development.py
-        |- production.py
-    |- venv/                # virtual env. gitignore 필요
-        |- lib/
-        |- bin/
-        |- include/
-        |- man/
-~~~
