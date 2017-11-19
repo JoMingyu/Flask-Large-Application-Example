@@ -1,7 +1,7 @@
 from logging import INFO, Formatter
 from logging.handlers import RotatingFileHandler
 
-from flask import current_app, request
+from flask import current_app, request, render_template
 
 
 class Logger(object):
@@ -38,3 +38,22 @@ class Logger(object):
         def teardown_appcontext(exception):
             if not exception:
                 current_app.logger.info('Teardown appcontext successfully.')
+
+
+class ErrorHandler(object):
+    def __init__(self, app=None):
+        if app is not None:
+            self.init_app(app)
+
+    def init_app(self, app):
+        @app.errorhandler(403)
+        def handler_403(e):
+            return render_template('403.html')
+
+        @app.errorhandler(404)
+        def handler_404(e):
+            return render_template('404.html')
+
+        @app.errorhandler(500)
+        def handler_500(e):
+            return render_template('500.html')
