@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 
-from middleware import ErrorHandler, Logger
+from app.middleware import ErrorHandler, Logger
 from app.models import Mongo
 from app.views import Swagger
 
@@ -28,11 +28,7 @@ def create_app(config_name):
 
     :rtype: Flask
     """
-    app_ = Flask(
-        __name__,
-        static_folder='static',
-        template_folder='templates'
-    )
+    app_ = Flask(__name__)
     app_.config.from_pyfile(config_name)
 
     cors.init_app(app_)
