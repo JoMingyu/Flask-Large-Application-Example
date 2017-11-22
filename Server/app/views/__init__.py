@@ -7,9 +7,11 @@ class Swagger(object):
             self.init_app(app)
 
     def init_app(self, app):
+        settings = app.config['SWAGGER_SETTINGS']
+
         api = Api(
             app,
-            api_spec_url=app.config['API_VER'],
-            title=app.config['API_TITLE'],
-            description=app.config['API_DESC']
+            api_spec_url=settings['API_VER'],
+            title=settings['API_TITLE'],
+            description=settings['API_DESC']
         )

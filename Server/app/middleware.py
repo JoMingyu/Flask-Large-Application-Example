@@ -29,8 +29,7 @@ class Logger(object):
         def after_request(response):
             current_app.logger.info('Respond : {0}'.format(response.status))
 
-            response.headers['Content-Type'] = 'application/json; charset=utf8'
-            # Fix encoding problem
+            response.headers['X-Powered-By'] = 'Example'
 
             return response
 
