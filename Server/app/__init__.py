@@ -3,7 +3,7 @@ from flask_cors import CORS
 
 from app.middleware import ErrorHandler, Logger
 from app.models import Mongo
-from app.views import Swagger
+from app.views import ViewInjector
 
 cors = CORS()
 # To Swagger, or Support AJAX
@@ -16,7 +16,7 @@ logger = Logger()
 db = Mongo()
 # To Control MongoDB
 
-swagger = Swagger()
+view = ViewInjector()
 # To Swagger Documentation
 
 
@@ -35,7 +35,7 @@ def create_app(config_name):
     error_handler.init_app(app_)
     logger.init_app(app_)
     db.init_app(app_)
-    swagger.init_app(app_)
+    view.init_app(app_)
 
     return app_
 

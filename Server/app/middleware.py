@@ -29,7 +29,7 @@ class Logger(object):
         def after_request(response):
             current_app.logger.info('Respond : {0}'.format(response.status))
 
-            response.headers['X-Powered-By'] = 'Example'
+            response.headers['X-Powered-By'] = app.config['SERVICE_NAME']
 
             return response
 

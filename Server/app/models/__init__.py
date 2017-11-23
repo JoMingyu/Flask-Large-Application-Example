@@ -10,7 +10,7 @@ class Mongo(object):
         settings = app.config['MONGODB_SETTINGS']
 
         connect(
-            alias=settings.get('db'),
+            db=settings.get('db'),
             host=settings.get('host'),
             port=settings.get('port'),
             username=settings.get('username'),
