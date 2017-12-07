@@ -1,11 +1,11 @@
-from config.base import *
+from config import *
 
 HOST = 'localhost'
-SWAGGER.update({'host': '{0}:{1}'.format(HOST, PORT)})
+ENDPOINT = '{0}:{1}'.format(HOST, PORT)
+SWAGGER.update({'host': ENDPOINT})
 
 DEBUG = True
 
 MONGODB_SETTINGS = {
-    'db': '{0}-dev'.format(SERVICE_NAME),
-    'host': 'localhost',
+    'db': '{0}-dev'.format(SERVICE_NAME)
 }
