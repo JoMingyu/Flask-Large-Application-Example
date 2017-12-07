@@ -47,12 +47,12 @@ class ErrorHandler(object):
     def init_app(self, app):
         @app.errorhandler(403)
         def handler_403(e):
-            return render_template('403.html')
+            return render_template('403.html'), 403
 
         @app.errorhandler(404)
         def handler_404(e):
-            return render_template('404.html')
+            return render_template('404.html'), 404
 
         @app.errorhandler(500)
         def handler_500(e):
-            return render_template('500.html')
+            return render_template('500.html'), 500

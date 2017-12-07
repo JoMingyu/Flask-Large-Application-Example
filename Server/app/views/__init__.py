@@ -1,8 +1,4 @@
-from flask_restful_swagger_2 import Api
 from flask_restful import Api
-from flasgger import Swagger
-
-from app.docs import TEMPLATE
 
 
 class ViewInjector(object):
@@ -11,6 +7,4 @@ class ViewInjector(object):
             self.init_app(app)
 
     def init_app(self, app):
-        Swagger(app, template=TEMPLATE)
-
         api = Api(app)
