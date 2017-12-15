@@ -13,17 +13,17 @@ cors = CORS()
 swagger = Swagger(template=TEMPLATE)
 # To Swagger UI
 
-error_handler = ErrorHandler()
-# To handler 4xx, 5xx errors
-
-logger = Logger()
-# To log in every context of Flask
-
 db = Mongo()
 # To Control MongoDB
 
 view = ViewInjector()
 # To Swagger Documentation
+
+error_handler = ErrorHandler()
+# To handler 4xx, 5xx errors
+
+logger = Logger()
+# To log in every context of Flask
 
 
 def create_app(config_name):
@@ -37,10 +37,10 @@ def create_app(config_name):
 
     cors.init_app(app_)
     swagger.init_app(app_)
-    error_handler.init_app(app_)
-    logger.init_app(app_)
     db.init_app(app_)
     view.init_app(app_)
+    error_handler.init_app(app_)
+    logger.init_app(app_)
 
     return app_
 

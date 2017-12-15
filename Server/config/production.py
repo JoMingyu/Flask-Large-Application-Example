@@ -6,6 +6,7 @@ HOST = socket.gethostbyname(socket.gethostname())
 ENDPOINT = '{0}:{1}'.format(HOST, PORT)
 SWAGGER.update({'host': ENDPOINT})
 
+TEST = False
 DEBUG = False
 
 MONGODB_SETTINGS = {
