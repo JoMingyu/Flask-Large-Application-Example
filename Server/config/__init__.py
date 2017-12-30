@@ -6,7 +6,7 @@ PORT = 3000
 SECRET_KEY = os.getenv('SECRET_KEY', '85c145a16bd6f6e1f3e104ca78c6a102')
 # Secret key for any 3-rd party libraries
 
-SERVICE_NAME = 'QS'
+SERVICE_NAME = 'Flask Large Application Example'
 
 SWAGGER = {
     'title': SERVICE_NAME,
@@ -17,6 +17,8 @@ SWAGGER = {
         'title': SERVICE_NAME + ' API',
         'version': '1.0',
         'description': '''
+### <a href="https://github.com/JoMingyu/Flask-Large-Application-Example">!! Repo !!</a>
+
 - Status Code 1xx : Informational
 - Status Code 2xx : Success
 - Status Code 3xx : Redirection
