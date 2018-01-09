@@ -1,5 +1,3 @@
-from argparse import ArgumentParser
-
 from flask import Flask
 from flasgger import Swagger
 
@@ -41,17 +39,11 @@ def create_app(config_name):
 
     return app_
 
-parser = ArgumentParser('Arguments to set configs for server')
-parser.add_argument('-c', '--config', required=True, help='Type of config(d : dev/p : production)')
-parser.add_argument('-p', '--port', help='Port which the server will operate', type=int)
-args = parser.parse_args()
+config = input('Type of config(d: dev/p: production) : ')
 
-assert args.config == 'd' or args.config == 'p'
+assert config == 'd' or config == 'p'
 
-if args.config == 'd':
+if config == 'd':
     app = create_app('../config/dev.py')
 else:
     app = create_app('../config/production.py')
-
-if args.port:
-    app.config['PORT'] = args.port
