@@ -1,4 +1,4 @@
-import unittest2 as ut
+import unittest as ut
 
 from app import app
 
