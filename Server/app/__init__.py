@@ -22,14 +22,17 @@ logger = Logger()
 # To log in every context of Flask
 
 
-def create_app(config_name):
+def create_app(config_name='dev'):
     """
     Creates Flask instance & initialize
 
     :rtype: Flask
     """
+    config_path = '../config/{}.py'.format(config_name)
+    # 인자로 config path를 통쨰로 넘겨주는 것보다 이상적
+
     app_ = Flask(__name__)
-    app_.config.from_pyfile(config_name)
+    app_.config.from_pyfile(config_path)
 
     swagger.init_app(app_)
     db.init_app(app_)
@@ -39,11 +42,5 @@ def create_app(config_name):
 
     return app_
 
-config = input('Type of config(d: dev/p: production) : ')
 
-assert config == 'd' or config == 'p'
-
-if config == 'd':
-    app = create_app('../config/dev.py')
-else:
-    app = create_app('../config/production.py')
+app = create_app()
