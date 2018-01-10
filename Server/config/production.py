@@ -3,7 +3,7 @@ import socket
 from config import *
 
 HOST = socket.gethostbyname(socket.gethostname())
-ENDPOINT = '{0}:{1}'.format(HOST, PORT)
+ENDPOINT = '{0}:{1}'.format(DOMAIN if DOMAIN else HOST, PORT)
 SWAGGER.update({'host': ENDPOINT})
 
 TEST = False
