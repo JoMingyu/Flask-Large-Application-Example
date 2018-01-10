@@ -20,5 +20,5 @@ SWAGGER = {
         'description': ''
     },
 
-    'basePath': '/ '
+    'basePath': '/'
 }
