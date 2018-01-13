@@ -1,4 +1,11 @@
-from flask_restful import Api
+import time
+
+from flask_restful import Resource
+
+
+class BaseResource(Resource):
+    def __init__(self):
+        self.now = time.strftime('%Y-%m-%d %H:%M:%S')
 
 
 class ViewInjector(object):
@@ -7,4 +14,4 @@ class ViewInjector(object):
             self.init_app(app)
 
     def init_app(self, app):
-        api = Api(app)
+        app.register_blueprint()
