@@ -14,5 +14,9 @@ class ViewInjector(object):
             self.init_app(app)
 
     def init_app(self, app):
+        def route(modules, url_prefix=None):
+            for module in modules:
+                app.register_blueprint(module.api.blueprint, url_prefix=url_prefix)
+
         from app.views.sample import sample_api
-        app.register_blueprint(sample_api.blueprint)
+        route(sample_api)

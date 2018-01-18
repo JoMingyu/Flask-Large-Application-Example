@@ -18,7 +18,7 @@ Quickstart라는 이름으로 레포를 시작했습니다. 서드파티로 Flas
 ### Generalization 2(~ commit #181e157)
 API 테스팅을 위한 tests/ 패키지 추가, Swagger API documentation을 지원하기 위한 라이브러리를 flask-restful-swagger-2에서 flasgger로 바꿨습니다. 그로 인해 필요없어진 CORS support도 동시에 제거했습니다.
 
-flask-restful로 API를 만들기 위한 BaseResource 클래스가 추가되고, blueprint 기반의 API register 구조를 고안했습니다.
+flask-restful로 API를 만들기 위한 BaseResource 클래스가 추가되고, blueprint 기반의 API register 구조를 고안했습니다. 하나의 Api 객체에 리소스를 모두 모을 경우 API endpoint name이 겹치며 생기는 문제를 없앨 수 있으며 깔끔한 import와 명시적인 리소스 선언이 장점입니다.
 
 ## I Referred
 ### People
