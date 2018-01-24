@@ -7,4 +7,6 @@ class Mongo(object):
             self.init_app(app)
 
     def init_app(self, app):
-        connect(app.config['MONGODB_SETTINGS']['db'])
+        setting = app.config['MONGODB_SETTINGS']
+
+        connect(setting['db'], host=setting['host'], port=setting['port'])

@@ -1,10 +1,13 @@
-from config import *
+from config import Config
 
-HOST = 'localhost'
 
-TEST = True
-DEBUG = True
+class DevConfig(Config):
+    HOST = 'localhost'
 
-MONGODB_SETTINGS = {
-    'db': '{0}-dev'.format(SERVICE_NAME)
-}
+    DEBUG = True
+
+    MONGODB_SETTINGS = {
+        'host': 'localhost',
+        'port': 27017,
+        'db': '{}-dev'.format(Config.SERVICE_NAME)
+    }

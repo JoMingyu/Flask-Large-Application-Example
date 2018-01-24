@@ -1,23 +1,25 @@
 import os
 # from datetime import timedelta
 
-PORT = 3000
 
-SECRET_KEY = os.getenv('SECRET_KEY', '85c145a16bd6f6e1f3e104ca78c6a102')
-# Secret key for any 3-rd party libraries
+class Config(object):
+    PORT = 3000
 
-SERVICE_NAME = 'Flask Large Application Example'
+    SECRET_KEY = os.getenv('SECRET_KEY', '85c145a16bd6f6e1f3e104ca78c6a102')
+    # Secret key for any 3-rd party libraries
 
-SWAGGER = {
-    'title': SERVICE_NAME,
-    'specs_route': '/docs/',
-    'uiversion': 3,
+    SERVICE_NAME = 'Flask Large Application Example'
 
-    'info': {
-        'title': SERVICE_NAME + ' API',
-        'version': '1.0',
-        'description': ''
-    },
+    SWAGGER = {
+        'title': SERVICE_NAME,
+        'specs_route': '/docs/',
+        'uiversion': 3,
 
-    'basePath': '/'
-}
+        'info': {
+            'title': SERVICE_NAME + ' API',
+            'version': '1.0',
+            'description': ''
+        },
+
+        'basePath': '/'
+    }

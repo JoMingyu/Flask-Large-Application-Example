@@ -1,12 +1,15 @@
 import socket
 
-from config import *
+from config import Config
 
-HOST = socket.gethostbyname(socket.gethostname())
 
-TEST = False
-DEBUG = False
+class ProductionConfig(Config):
+    HOST = socket.gethostbyname(socket.gethostname())
 
-MONGODB_SETTINGS = {
-    'db': '{0}-production'.format(SERVICE_NAME)
-}
+    DEBUG = False
+
+    MONGODB_SETTINGS = {
+        'host': 'localhost',
+        'port': 27017,
+        'db': '{}-production'.format(Config.SERVICE_NAME)
+    }
