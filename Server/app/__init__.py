@@ -29,7 +29,6 @@ def create_app(config_name='dev'):
     :rtype: Flask
     """
     config_path = '../config/{}.py'.format(config_name)
-    # 인자로 config path를 통쨰로 넘겨주는 것보다 이상적
 
     app_ = Flask(__name__)
     app_.config.from_pyfile(config_path)
