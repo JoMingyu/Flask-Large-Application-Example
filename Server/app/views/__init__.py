@@ -18,5 +18,5 @@ class ViewInjector(object):
             for module_ in modules:
                 app.register_blueprint(module_.api.blueprint)
 
-        from app.views.sample import sample_api
-        route(sample_api)
+        from app.views import sample
+        route((sample,))

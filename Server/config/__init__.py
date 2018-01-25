@@ -23,5 +23,5 @@ class Config(object):
         },
 
         'host': '{}:{}'.format(DOMAIN, PORT) if DOMAIN else None,
-        'basePath': '/'
+        'basePath': '/ '
     }
