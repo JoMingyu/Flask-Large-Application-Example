@@ -5,15 +5,15 @@ from flasgger import Swagger
 from app.docs import TEMPLATE
 from app.models import Mongo
 from app.views import ViewInjector
-from app.middleware import ErrorHandler, Logger
+
+from config.dev import DevConfig
+from config.production import ProductionConfig
 
 cors = CORS()
 swagger = Swagger(template=TEMPLATE)
 
 db = Mongo()
 view = ViewInjector()
-error_handler = ErrorHandler()
-logger = Logger()
 
 
 def create_app(dev=True):
@@ -23,19 +23,12 @@ def create_app(dev=True):
     :rtype: Flask
     """
     app_ = Flask(__name__)
-    if dev:
-        from config.dev import DevConfig
-        app_.config.from_object(DevConfig)
-    else:
-        from config.production import ProductionConfig
-        app_.config.from_object(ProductionConfig)
+    app_.config.from_object(DevConfig if dev else ProductionConfig)
 
     cors.init_app(app_)
     swagger.init_app(app_)
     db.init_app(app_)
     view.init_app(app_)
-    error_handler.init_app(app_)
-    logger.init_app(app_)
 
     return app_
 
