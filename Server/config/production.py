@@ -14,5 +14,5 @@ class ProductionConfig(Config):
     MONGODB_SETTINGS = {
         'host': 'localhost',
         'port': 27017,
-        'db': '{}-production'.format(Config.SERVICE_NAME)
+        'db': Config.SERVICE_NAME
     }
