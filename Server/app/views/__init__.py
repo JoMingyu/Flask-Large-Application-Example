@@ -24,9 +24,5 @@ class ViewInjector(object):
             self.init_app(app)
 
     def init_app(self, app):
-        def route(modules):
-            for module_ in modules:
-                app.register_blueprint(module_.api.blueprint)
-
         from app.views import sample
-        route((sample,))
+        app.regsiter_blueprint(sample.api.blueprint)
