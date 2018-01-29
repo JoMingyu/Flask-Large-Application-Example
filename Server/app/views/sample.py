@@ -10,7 +10,7 @@ api.prefix = '/prefix'
 @api.resource('/sample')
 class Sample(BaseResource):
     def get(self):
-        return json_response({
+        return self.unicode_safe_json_response({
             'at': self.now,
             'msg': 'hello!'
         })
