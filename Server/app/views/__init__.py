@@ -25,4 +25,4 @@ class ViewInjector(object):
 
     def init_app(self, app):
         from app.views import sample
-        app.regsiter_blueprint(sample.api.blueprint)
+        app.register_blueprint(sample.api.blueprint)
