@@ -18,7 +18,7 @@ class BaseResource(Resource):
         )
 
 
-class ViewInjector(object):
+class Router(object):
     def __init__(self, app=None):
         if app is not None:
             self.init_app(app)
