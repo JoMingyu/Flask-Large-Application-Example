@@ -1,4 +1,4 @@
-import json
+import ujson
 import time
 
 from flask import Response
@@ -12,7 +12,7 @@ class BaseResource(Resource):
     @classmethod
     def unicode_safe_json_response(cls, data, status_code=200):
         return Response(
-            json.dumps(data, ensure_ascii=False),
+            ujson.dumps(data, ensure_ascii=False),
             status_code,
             content_type='application/json; charset=utf8'
         )
