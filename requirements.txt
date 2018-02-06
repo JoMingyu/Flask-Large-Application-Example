@@ -2,14 +2,23 @@
 # https://github.com/Damnever/pigar
 
 # Server/app/__init__.py: 1
-# Server/app/middleware.py: 4
+# Server/app/views/__init__.py: 4
+# Server/app/views/sample.py: 2
 Flask == 0.12.2
 
-# Server/app/views/__init__.py: 1
+# Server/app/__init__.py: 2
+Flask_Cors == 3.0.3
+
+# Server/app/views/__init__.py: 5
+# Server/app/views/sample.py: 3
 Flask_RESTful == 0.3.6
 
-# Server/app/__init__.py: 2
+# Server/app/__init__.py: 3
+# Server/app/views/sample.py: 1
 flasgger == 0.8.0
 
 # Server/app/models/__init__.py: 1
-mongoengine == 0.13.0
+mongoengine == 0.15.0
+
+# Server/app/views/__init__.py: 1
+ujson == 1.35
