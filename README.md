@@ -5,9 +5,9 @@ This is how I structure my large Flask applications.
 패키지는 app/, config/, migrations/, tests/, utils/로 나뉘어 있습니다.
 
 ### app/
-docs/, models/, views/ 패키지로 나뉘어 있고 웹 서버 개발 시 필요한 템플릿과 정적 파일을 위해 static, templates 디렉토리가 구성되어 있습니다. docs에는 Swagger doc, models에는 SQLAlchemy나 MongoEngine을 이용해 설계된 스키마, views에는 API를 작성하는 방식입니다. flask-restful.Api와 flask.Blueprint를 적극적으로 사용하는, 개인적으로 이상적이라 생각하는 방식으로 샘플(app/views/sample.py)을 만들어 두었습니다.
+docs/, models/, views/ 패키지로 나뉘어 있고 웹 서버 개발 시 필요한 템플릿과 정적 파일을 위해 static, templates 디렉토리가 구성되어 있습니다. docs에는 Swagger doc 관리, models에는 SQLAlchemy나 MongoEngine을 이용해 설계된 스키마 관리, views에는 API를 작성하는 방식입니다. flask-restful.Api와 flask.Blueprint를 적극적으로 사용하는, 개인적으로 이상적이라 생각하는 방식으로 샘플(app/views/sample.py)을 만들어 두었습니다.
 
-models/\_\_init\_\_.py에 Mongo, views/\_\_init\_\_.py에 ViewInjector 클래스가 있으며 각각 서버 시작 전 DB Connect, 라우팅을 담당합니다. views/\_\_init\_\_.py의 BaseResource 클래스는 view function에서 쓸만한 helper function들을 classmethod로 관리하기 좋습니다.
+models/\_\_init\_\_.py에 Mongo, views/\_\_init\_\_.py에 ViewInjector 클래스가 있으며 각각 서버 시작 전 DB Connect, 라우팅을 담당합니다. views/\_\_init\_\_.py의 BaseResource 클래스는 view function에서 쓸만한 helper function들을 classmethod로 관리하기 좋습니다. SQLAlchemy, MongoEngine과 WTForms 사이의 연동이 굉장히 좋으니, Model만 만들고 combine하는 것도 생산성을 높이는 하나의 방법입니다.
 
 ### config/
 Config, DevConfig, ProductionConfig 클래스가 각각 \_\_init\_\_.py, dev.py, production.py 모듈에 나뉘어 서버 구성에 필요한 설정 값들을 다룹니다.
