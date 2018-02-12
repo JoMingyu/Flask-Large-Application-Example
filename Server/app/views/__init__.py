@@ -1,8 +1,31 @@
+from functools import wraps
 import ujson
 import time
 
 from flask import Response
-from flask_restful import Resource
+from flask_restful import Resource, abort, request
+
+
+def json_required(fn, required_keys=()):
+    """
+    View function with this decorator means
+    "This view function required Content-Type=application/json in header"
+
+    - If content-type is not application/json : returns status code 406
+    - If required_keys are not exist on request.json : returns status code 400
+    """
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        if not request.is_json:
+            abort(406)
+
+        for required_key in required_keys:
+            if required_key not in request.json:
+                abort(400)
+
+        return fn(*args, **kwargs)
+
+    return wrapper
 
 
 class BaseResource(Resource):
