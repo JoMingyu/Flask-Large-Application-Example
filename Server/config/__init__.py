@@ -2,7 +2,7 @@ import os
 
 
 class Config(object):
-    DOMAIN = None
+    REPRESENTATIVE_HOST = None
     PORT = 3000
 
     SECRET_KEY = os.getenv('SECRET_KEY', '85c145a16bd6f6e1f3e104ca78c6a102')
@@ -21,6 +21,6 @@ class Config(object):
             'description': ''
         },
 
-        'host': '{}:{}'.format(DOMAIN, PORT) if DOMAIN else None,
+        'host': '{}:{}'.format(REPRESENTATIVE_HOST, PORT) if REPRESENTATIVE_HOST else None,
         'basePath': '/ '
     }

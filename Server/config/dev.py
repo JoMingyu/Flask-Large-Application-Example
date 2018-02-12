@@ -4,7 +4,7 @@ from config import Config
 class DevConfig(Config):
     HOST = 'localhost'
 
-    if not Config.DOMAIN:
+    if not Config.REPRESENTATIVE_HOST:
         Config.SWAGGER['host'] = '{}:{}'.format(HOST, Config.PORT)
 
     DEBUG = True
