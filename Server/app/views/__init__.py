@@ -6,26 +6,33 @@ from flask import Flask, Response
 from flask_restful import Resource, abort, request
 
 
-def json_required(fn, required_keys=()):
+def json_required(*required_keys):
     """
-    View function with this decorator means
-    "This view function required Content-Type=application/json in header"
+    View decorator for JSON validation.
+    - About custom view decorator
+    -> http://flask-docs-kr.readthedocs.io/ko/latest/patterns/viewdecorators.html
 
     - If content-type is not application/json : returns status code 406
     - If required_keys are not exist on request.json : returns status code 400
+
+    :type required_keys: str
     """
-    @wraps(fn)
-    def wrapper(*args, **kwargs):
-        if not request.is_json:
-            abort(406)
+    def decorator(fn):
+        if fn.__name__ == 'get':
+            print('[WARN] JSON with GET method? on "{}()"'.format(fn.__qualname__))
 
-        for required_key in required_keys:
-            if required_key not in request.json:
-                abort(400)
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            if not request.is_json:
+                abort(406)
 
-        return fn(*args, **kwargs)
+            for required_key in required_keys:
+                if required_key not in request.json:
+                    abort(400)
 
-    return wrapper
+            return fn(*args, **kwargs)
+        return wrapper
+    return decorator
 
 
 class BaseResource(Resource):
@@ -61,7 +68,7 @@ class BaseResource(Resource):
 
 class Router(object):
     """
-    Helper class which routes REST resources
+    REST resource routing helper class like standard flask 3-rd party libraries
     """
     def __init__(self, app=None):
         if app is not None:
@@ -74,4 +81,4 @@ class Router(object):
         :type app: Flask
         """
         from app.views import sample
-        app.register_blueprint(sample.api.blueprint)
+        app.register_blueprint(sample.api.blueprint.api)
