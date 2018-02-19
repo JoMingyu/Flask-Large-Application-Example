@@ -6,11 +6,27 @@ from flask import Flask, Response
 from flask_restful import Resource, abort, request
 
 
+def auth_required(fn):
+    """
+    View decorator for access control.
+
+    ### TODO
+    If you want to access control easily with this decorator,
+    fill 'wrapper()' function included (1) aborting when access denied client (2) Set user object to flask.g
+
+    - About custom view decorator
+    -> http://flask-docs-kr.readthedocs.io/ko/latest/patterns/viewdecorators.html
+    """
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        return fn(*args, **kwargs)
+
+    return wrapper
+
+
 def json_required(*required_keys):
     """
     View decorator for JSON validation.
-    - About custom view decorator
-    -> http://flask-docs-kr.readthedocs.io/ko/latest/patterns/viewdecorators.html
 
     - If content-type is not application/json : returns status code 406
     - If required_keys are not exist on request.json : returns status code 400
@@ -49,7 +65,7 @@ class BaseResource(Resource):
 
         - About ujson.dumps(data, ensure_ascii=False)
         If ensure_ascii is true (the default),
-        all non-ASCII characters in the output are escaped with \uXXXX sequences,
+        all non-ASCII characters in the output are escaped with \\uXXXX sequences,
         and the result is a str instance consisting of ASCII characters only.
 
         If ensure_ascii is false, some chunks written to fp may be unicode instances.
