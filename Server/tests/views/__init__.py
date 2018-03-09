@@ -14,11 +14,12 @@ class TCBase(TC):
         pass
 
     def _get_tokens(self):
-        pass
-
-    def setUp(self):
         self.access_token = None
         self.refresh_token = None
+
+    def setUp(self):
+        self._create_fake_account()
+        self._get_tokens()
 
     def tearDown(self):
         pass
