@@ -3,7 +3,7 @@ from flask import Blueprint
 from flask_restful import Api
 
 from app.docs.sample import *
-from app.views import BaseResource
+from app.views.support.resources import BaseResource
 
 api = Api(Blueprint('sample_api', __name__))
 api.prefix = '/prefix'

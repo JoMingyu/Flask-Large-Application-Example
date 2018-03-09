@@ -11,4 +11,4 @@ class Router(object):
         Routes resources. Use app.register_blueprint() aggressively
         """
         from app.views import sample
-        app.register_blueprint(sample.api.blueprint.api)
+        app.register_blueprint(sample.api.blueprint)
