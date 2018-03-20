@@ -56,7 +56,7 @@ def mongo_to_dict(obj, exclude_fields=list()):
 
     document_data_dict = obj._data
 
-    if 'id' in document_data_dict:
+    if 'id' not in exclude_fields and 'id' in document_data_dict:
         # EmbeddedDocument doesn't have _id
         return_data['id'] = str(obj.id)
 
