@@ -49,6 +49,7 @@ def mongo_to_dict(obj, exclude_fields=list()):
     :param obj: Document of MongoEngine
     :param exclude_fields: field names for exclude
     """
+    exclude_fields.append('_cls')
     return_data = {}
 
     if obj is None:
