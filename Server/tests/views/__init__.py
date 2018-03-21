@@ -53,3 +53,18 @@ class TCBase(TC):
             *args,
             **kwargs
         )
+
+    def request(self, method, target_url_rule, data=None, token=None, *args, **kwargs):
+        if token is None:
+            token = self.access_token
+
+        return method(
+            target_url_rule,
+            data=data,
+            headers={'Authorization': token},
+            *args,
+            **kwargs
+        )
+
+    def get_response_data(self, resp):
+        return ujson.loads(resp.data.decode())

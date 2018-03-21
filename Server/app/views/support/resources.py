@@ -17,13 +17,6 @@ class BaseResource(Resource):
         """
         Helper function which processes json response with unicode using ujson
 
-        - About ujson.dumps(data, ensure_ascii=False)
-        If ensure_ascii is true (the default),
-        all non-ASCII characters in the output are escaped with \\uXXXX sequences,
-        and the result is a str instance consisting of ASCII characters only.
-
-        If ensure_ascii is false, some chunks written to fp may be unicode instances.
-
         :type data: dict or list
         :type status_code: int
 
