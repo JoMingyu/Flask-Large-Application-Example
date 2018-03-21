@@ -13,7 +13,7 @@ api.prefix = '/prefix'
 class Sample(BaseResource):
     @swag_from(SAMPLE_GET)
     def get(self):
-        return self.unicode_safe_json_response({
+        return self.unicode_safe_json_dump({
             'at': self.now,
             'msg': 'hello!'
         })
