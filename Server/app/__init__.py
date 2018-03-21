@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager
 from flasgger import Swagger
 
 from app.docs import TEMPLATE
@@ -20,6 +21,7 @@ def create_app(dev=True):
     app_.config.from_object(DevConfig if dev else ProductionConfig)
 
     CORS().init_app(app_)
+    JWTManager().init_app(app_)
     Swagger(template=TEMPLATE).init_app(app_)
     Mongo().init_app(app_)
     Router().init_app(app_)
