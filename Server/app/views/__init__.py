@@ -59,7 +59,7 @@ class BaseResource(Resource):
         self.now = time.strftime('%Y-%m-%d %H:%M:%S')
 
     @classmethod
-    def unicode_safe_json_dump(cls, data, status_code=200):
+    def unicode_safe_json_dumps(cls, data, status_code=200, **kwargs):
         """
         Helper function which processes json response with unicode using ujson
 
@@ -71,7 +71,8 @@ class BaseResource(Resource):
         return Response(
             ujson.dumps(data, ensure_ascii=False),
             status_code,
-            content_type='application/json; charset=utf8'
+            content_type='application/json; charset=utf8',
+            **kwargs
         )
 
 
@@ -83,9 +84,21 @@ class Router(object):
         if app is not None:
             self.init_app(app)
 
+    @staticmethod
+    def after_request(response):
+        """
+        Set header - X-Content-Type-Options=nosniff, X-Frame-Options=deny before response
+        """
+        response.headers['X-Content-Type-Options'] = 'nosniff'
+        response.headers['X-Frame-Options'] = 'deny'
+
+        return response
+
     def init_app(self, app):
         """
         Routes resources. Use app.register_blueprint() aggressively
         """
+        app.after_request(self.after_request)
+
         from app.views import sample
         app.register_blueprint(sample.api.blueprint)
