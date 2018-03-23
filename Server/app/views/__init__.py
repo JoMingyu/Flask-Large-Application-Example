@@ -6,6 +6,16 @@ from flask import Response, request
 from flask_restful import Resource, abort
 
 
+def after_request(response):
+    """
+    Set header - X-Content-Type-Options=nosniff, X-Frame-Options=deny before response
+    """
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'deny'
+
+    return response
+
+
 def auth_required(fn):
     """
     View decorator for access control.
@@ -84,21 +94,11 @@ class Router(object):
         if app is not None:
             self.init_app(app)
 
-    @staticmethod
-    def after_request(response):
-        """
-        Set header - X-Content-Type-Options=nosniff, X-Frame-Options=deny before response
-        """
-        response.headers['X-Content-Type-Options'] = 'nosniff'
-        response.headers['X-Frame-Options'] = 'deny'
-
-        return response
-
     def init_app(self, app):
         """
         Routes resources. Use app.register_blueprint() aggressively
         """
-        app.after_request(self.after_request)
+        app.after_request(after_request)
 
         from app.views import sample
         app.register_blueprint(sample.api.blueprint)
