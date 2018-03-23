@@ -5,7 +5,7 @@ This is how I structure my large Flask applications.
 '나중에 쓰려고' 만든 Flask 어플리케이션 예제이자 보일러플레이트입니다. 따라서 Swagger, MongoDB + MongoEngine, JWT, unittest와 같이 지극히 개인 취향인 기능들이 많아 일반화되어있지 않고 복잡할 수 있습니다. Flask의 설계 원칙(micro)에 맞는 간단하고, 일반화된 Flask 어플리케이션의 예제를 보려면 <a href="https://github.com/JoMingyu/Flask-Large-Application-Example-Simplified">Flask Large Application Example - Simplified</a>를 참고하시기 바랍니다.
 
 ## 요소
-### Application Factory(app/__init__.py)
+### Application Factory(app/\_\_init\_\_.py)
 ```
 def create_app(dev=True):
     """
@@ -85,7 +85,7 @@ class Router(object):
         app.register_blueprint(sample.api.blueprint)
 ```
 
-### BaseResource(app/views/__init__.py)
+### BaseResource(app/views/\_\_init\_\_.py)
 flask-restful.Resource(flask.views.MethodView) 클래스를 상속받은 클래스입니다. 파이썬이 유니코드 형태로 문자열을 다루기 때문에 생기는 문제 등을 해결합니다. 현재는 `unicode_safe_json_dumps` 메소드와 `self.now` 인스턴스 필드만을 가지고 있습니다. `self.` 형태로 접근할 만한 헬퍼 함수를 정의하는 경우, 여기에 선언해서 사용하면 좋습니다.
 
 ```
@@ -103,7 +103,7 @@ class BaseResource(Resource):
         )
 ```
 
-### 뷰 데코레이터(app/views/__init__.py)
+### 뷰 데코레이터(app/views/\_\_init\_\_.py)
 <a href="http://flask-docs-kr.readthedocs.io/ko/latest/patterns/viewdecorators.html">뷰 데코레이터</a>는 각 뷰 함수에 추가적인 기능을 주입하는 데 사용될 데코레이터입니다. 여기서는 API 보안을 위한 헤더 설정을 위해 `@app.after_request` 데코레이터를 설정했고, `@json_required`, `@auth_required` 데코레이터를 만들어 두었습니다.
 
 ```
@@ -134,7 +134,7 @@ def json_required(*required_keys):
 
 ### mongo_to_dict(app/views/models/support/mongo_helper.py)
 
-### TCBase(tests/views/__init__.py)
+### TCBase(tests/views/\_\_init\_\_.py)
 
 ## I Referred
 ### People
