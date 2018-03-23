@@ -2,7 +2,7 @@
 This is how I structure my large Flask applications.
 
 ## About
-'나중에 쓰려고' 만든 Flask 어플리케이션 예제이자 보일러플레이트입니다. 따라서 Swagger, MongoDB + MongoEngine, JWT, unittest와 같이 지극히 개인 취향인 기능들이 많아 일반화되어있지 않고 복잡할 수 있습니다. Flask의 설계 원칙(micro)에 맞는 간단하고, 일반화된 Flask 어플리케이션의 예제를 보려면 <a href="https://github.com/JoMingyu/Flask-Large-Application-Example-Simplified">Flask Large Application Example - Simplified</a>를 참고하시기 바랍니다.
+'나중에 쓰려고' 만든 Flask 어플리케이션 예제이자 보일러플레이트입니다. 따라서 Swagger, MongoDB + MongoEngine, JWT, unittest와 같이 지극히 개인 취향인 기능들이 많아 일반화되어있지 않고 복잡할 수 있습니다. 단순히 구조만을 보고 싶거나 Flask의 설계 원칙(micro)에 맞는 간단하고, 일반화된 Flask 어플리케이션의 예제를 보려면 <a href="https://github.com/JoMingyu/Flask-Large-Application-Example-Simplified">Flask Large Application Example - Simplified</a>를 참고하시기 바랍니다.
 
 ## 요소
 ### Application Factory(app/\_\_init\_\_.py)
