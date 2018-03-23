@@ -85,7 +85,7 @@ class Router(object):
         app.register_blueprint(sample.api.blueprint)
 ```
 
-### BaseResource(app/views/__init__.py)
+### BaseResource(app/views/\_\_init\_\_.py)
 flask-restful.Resource(flask.views.MethodView) 클래스를 상속받은 클래스입니다. 파이썬이 유니코드 형태로 문자열을 다루기 때문에 생기는 문제 등을 해결합니다. 현재는 `unicode_safe_json_dumps` 메소드와 `self.now` 인스턴스 필드만을 가지고 있습니다. `self.` 형태로 접근할 만한 헬퍼 함수를 정의하는 경우, 여기에 선언해서 사용하면 좋습니다.
 
 ```
@@ -103,7 +103,7 @@ class BaseResource(Resource):
         )
 ```
 
-### 뷰 데코레이터(app/views/__init__.py)
+### 뷰 데코레이터(app/views/\_\_init\_\_.py)
 <a href="http://flask-docs-kr.readthedocs.io/ko/latest/patterns/viewdecorators.html">뷰 데코레이터</a>는 각 뷰 함수에 추가적인 기능을 주입하는 데 사용될 데코레이터입니다. 여기서는 API 보안을 위한 헤더 설정을 위해 `@app.after_request` 데코레이터를 설정했고, `@json_required`, `@auth_required` 데코레이터를 만들어 두었습니다.
 
 ```
@@ -134,7 +134,7 @@ def json_required(*required_keys):
 
 ### mongo_to_dict(app/views/models/support/mongo_helper.py)
 
-### TCBase(tests/views/__init__.py)
+### TCBase(tests/views/\_\_init\_\_.py)
 
 ## I Referred
 ### People
