@@ -24,7 +24,7 @@ class TCBase(TC):
     def tearDown(self):
         pass
 
-    def json_request(self, method, target_url_rule, data, token=None, *args, **kwargs):
+    def json_request(self, method, target_url_rule, data=None, token=None, *args, **kwargs):
         """
         Helper for json request
 
@@ -47,7 +47,7 @@ class TCBase(TC):
 
         return method(
             target_url_rule,
-            data=ujson.dumps(data),
+            data=ujson.dumps(data if data else {}),
             content_type='application/json',
             headers={'Authorization': token},
             *args,
