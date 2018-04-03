@@ -18,6 +18,8 @@ def create_app(dev=True):
     Returns:
         Flask
     """
+    print('[INFO] Flask application initialized with {} mode.'.format('DEV' if dev else 'PRODUCTION'))
+
     app_ = Flask(__name__)
     app_.config.from_object(DevConfig if dev else ProductionConfig)
 
