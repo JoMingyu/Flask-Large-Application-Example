@@ -2,8 +2,8 @@ from functools import wraps
 import ujson
 import time
 
-from flask import Response, request
-from flask_restful import Resource, abort
+from flask import Response, abort, request
+from flask_restful import Resource
 
 
 def after_request(response):
@@ -41,7 +41,8 @@ def json_required(*required_keys):
     - If content-type is not application/json : returns status code 406
     - If required_keys are not exist on request.json : returns status code 400
 
-    :type required_keys: str
+    Args:
+        *required_keys: Required keys on requested JSON payload
     """
     def decorator(fn):
         if fn.__name__ == 'get':
@@ -58,6 +59,7 @@ def json_required(*required_keys):
 
             return fn(*args, **kwargs)
         return wrapper
+
     return decorator
 
 
@@ -73,10 +75,12 @@ class BaseResource(Resource):
         """
         Helper function which processes json response with unicode using ujson
 
-        :type data: dict or list
-        :type status_code: int
+        Args:
+            data (dict or list): Data for dump to JSON
+            status_code (int): Status code for response
 
-        :rtype: Response
+        Returns:
+            Response
         """
         return Response(
             ujson.dumps(data, ensure_ascii=False),

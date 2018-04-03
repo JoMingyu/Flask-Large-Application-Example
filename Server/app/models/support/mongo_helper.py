@@ -2,6 +2,8 @@ from bson.objectid import ObjectId
 from datetime import datetime
 from decimal import Decimal
 
+from mongoengine.base import BaseDocument
+
 from app.models import *
 
 
@@ -46,8 +48,13 @@ def _extract_field_data(field_value):
 def mongo_to_dict(obj, exclude_fields=list()):
     """
     Convert Document of MongoEngine's instance to dictionary type
-    :param obj: Document of MongoEngine
-    :param exclude_fields: field names for exclude
+
+    Args:
+        obj (BaseDocument): Document of MongoEngine
+        exclude_fields (list): Field names for exclude
+
+    Returns:
+        dict
     """
     exclude_fields.append('_cls')
     return_data = {}

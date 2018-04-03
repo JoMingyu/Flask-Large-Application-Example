@@ -15,7 +15,8 @@ def create_app(dev=True):
     """
     Creates Flask instance & initialize
 
-    :rtype: Flask
+    Returns:
+        Flask
     """
     app_ = Flask(__name__)
     app_.config.from_object(DevConfig if dev else ProductionConfig)
