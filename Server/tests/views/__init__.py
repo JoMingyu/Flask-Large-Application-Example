@@ -1,6 +1,8 @@
 import ujson
 from unittest import TestCase as TC
 
+from flask import Response
+
 from app import app
 
 
@@ -24,42 +26,53 @@ class TCBase(TC):
     def tearDown(self):
         pass
 
-    def json_request(self, method, target_url_rule, data=None, token=None, *args, **kwargs):
+    def json_request(self, method, target_url_rule, query_string=None, data=None, token=None, *args, **kwargs):
         """
         Helper for json request
 
-        :param method: Request method
-        :type method: func
+        Args:
+            method (func): Request method
+            target_url_rule (str): URL rule for request
+            query_string (dict): Query parameters
+            data (dict): JSON payload (application/json)
+            token (str) : JWT or OAuth's access token with prefix(Bearer, JWT, ...)
 
-        :param target_url_rule: URL rule for request
-        :type target_url_rule: str
-
-        :param data: JSON payload for request body
-        :type data: dict or list
-
-        :param token: JWT or OAuth's access token with prefix(Bearer, JWT, ...). if token is None, use self.access_token
-        :type token: str
-
-        :return: response
+        Returns:
+            Response
         """
         if token is None:
             token = self.access_token
 
         return method(
             target_url_rule,
-            data=ujson.dumps(data if data else {}),
+            query_string=query_string,
+            data=ujson.dumps(data) if data else None,
             content_type='application/json',
             headers={'Authorization': token},
             *args,
             **kwargs
         )
 
-    def request(self, method, target_url_rule, data=None, token=None, *args, **kwargs):
+    def request(self, method, target_url_rule, query_string=None, data=None, token=None, *args, **kwargs):
+        """
+        Helper for common request
+
+        Args:
+            method (func): Request method
+            target_url_rule (str): URL rule for request
+            query_string (dict): Query parameters
+            data (dict): Body parameters (application/x-www-form-urlencoded)
+            token (str) : JWT or OAuth's access token with prefix(Bearer, JWT, ...)
+
+        Returns:
+            Response
+        """
         if token is None:
             token = self.access_token
 
         return method(
             target_url_rule,
+            query_string=query_string,
             data=data,
             headers={'Authorization': token},
             *args,
