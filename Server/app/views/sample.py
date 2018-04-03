@@ -11,7 +11,7 @@ api.prefix = '/prefix'
 
 @api.resource('/sample')
 class Sample(BaseResource):
-    @swag_from(SAMPLE_GET)
+    @swag_from(SAMPLE_POST)
     @json_required('name', 'age')
-    def get(self):
+    def post(self):
         return self.unicode_safe_json_dumps(request.json, 201)
