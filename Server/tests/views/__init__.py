@@ -26,15 +26,13 @@ class TCBase(TC):
     def tearDown(self):
         pass
 
-    def json_request(self, method, target_url_rule, query_string=None, data=None, token=None, *args, **kwargs):
+    def json_request(self, method, target_url_rule, token=None, *args, **kwargs):
         """
         Helper for json request
 
         Args:
             method (func): Request method
             target_url_rule (str): URL rule for request
-            query_string (dict): Query parameters
-            data (dict): JSON payload (application/json)
             token (str) : JWT or OAuth's access token with prefix(Bearer, JWT, ...)
 
         Returns:
@@ -43,9 +41,10 @@ class TCBase(TC):
         if token is None:
             token = self.access_token
 
+        data = kwargs.pop('data')
+
         return method(
             target_url_rule,
-            query_string=query_string,
             data=ujson.dumps(data) if data else None,
             content_type='application/json',
             headers={'Authorization': token},
@@ -53,15 +52,13 @@ class TCBase(TC):
             **kwargs
         )
 
-    def request(self, method, target_url_rule, query_string=None, data=None, token=None, *args, **kwargs):
+    def request(self, method, target_url_rule, token=None, *args, **kwargs):
         """
         Helper for common request
 
         Args:
             method (func): Request method
             target_url_rule (str): URL rule for request
-            query_string (dict): Query parameters
-            data (dict): Body parameters (application/x-www-form-urlencoded)
             token (str) : JWT or OAuth's access token with prefix(Bearer, JWT, ...)
 
         Returns:
@@ -72,8 +69,6 @@ class TCBase(TC):
 
         return method(
             target_url_rule,
-            query_string=query_string,
-            data=data,
             headers={'Authorization': token},
             *args,
             **kwargs
