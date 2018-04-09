@@ -74,5 +74,8 @@ class TCBase(TC):
             **kwargs
         )
 
+    def decode_response_data(self, resp):
+        return resp.data.decode()
+
     def get_response_data(self, resp):
-        return ujson.loads(resp.data.decode())
+        return ujson.loads(self.decode_response_data(resp))
