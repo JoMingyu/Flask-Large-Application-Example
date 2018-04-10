@@ -8,7 +8,7 @@ from app import app
 
 class TCBase(TC):
     def __init__(self, *args, **kwargs):
-        TC.__init__(self, *args, **kwargs)
+        super(TCBase, self).__init__(*args, **kwargs)
 
         self.client = app.test_client()
 
