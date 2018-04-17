@@ -9,7 +9,7 @@ if __name__ == '__main__':
 
     parser = ArgumentParser('해당 Flask 어플리케이션이 동작하기 위해 필요한 설정 값들을 다루기 위한 Argument Parser입니다.')
 
-    parser.add_argument('-p', '--port')
+    parser.add_argument('-p', '--port', type=int)
     args = parser.parse_args()
 
-    app.run(host=app.config['HOST'], port=int(args.port) if args.port else app.config['PORT'], debug=app.debug, threaded=True)
+    app.run(host=app.config['HOST'], port=args.port or app.config['PORT'], debug=app.debug, threaded=True)
