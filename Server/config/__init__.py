@@ -16,7 +16,7 @@ class Config(object):
 
     SWAGGER = {
         'title': SERVICE_NAME,
-        'specs_route': '/docs/',
+        'specs_route': os.getenv('SWAGGER_URI', '/docs/'),
         'uiversion': 3,
 
         'info': {
