@@ -8,9 +8,9 @@ from app import app
 
 class TCBase(TC):
     def __init__(self, *args, **kwargs):
-        super(TCBase, self).__init__(*args, **kwargs)
-
         self.client = app.test_client()
+
+        super(TCBase, self).__init__(*args, **kwargs)
 
     def _create_fake_account(self):
         pass
@@ -38,16 +38,13 @@ class TCBase(TC):
         Returns:
             Response
         """
-        if token is None:
-            token = self.access_token
-
         data = kwargs.pop('data')
 
         return method(
             target_url_rule,
             data=ujson.dumps(data) if data else None,
             content_type='application/json',
-            headers={'Authorization': token},
+            headers={'Authorization': token or self.access_token},
             *args,
             **kwargs
         )
@@ -64,12 +61,9 @@ class TCBase(TC):
         Returns:
             Response
         """
-        if token is None:
-            token = self.access_token
-
         return method(
             target_url_rule,
-            headers={'Authorization': token},
+            headers={'Authorization': token or self.access_token},
             *args,
             **kwargs
         )
