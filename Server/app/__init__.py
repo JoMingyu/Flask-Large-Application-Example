@@ -10,6 +10,8 @@ from app.views import Router
 from config.dev import DevConfig
 from config.production import ProductionConfig
 
+WEB_FILE_ROOT_DIR = '../web_files'
+
 
 def create_app(dev=True):
     """
@@ -20,7 +22,11 @@ def create_app(dev=True):
     """
     print('[INFO] Flask application initialized with {} mode.'.format('DEV' if dev else 'PRODUCTION'))
 
-    app_ = Flask(__name__)
+    app_ = Flask(
+        __name__,
+        # static_folder='{}/static'.format(WEB_FILE_ROOT_DIR),
+        # template_folder='{}/templates'.format(WEB_FILE_ROOT_DIR)
+    )
     app_.config.from_object(DevConfig if dev else ProductionConfig)
 
     CORS().init_app(app_)
