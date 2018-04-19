@@ -2,7 +2,8 @@ from functools import wraps
 import ujson
 import time
 
-from flask import Response, abort, request
+from flask import Response, abort, g, request
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restful import Resource
 
 
@@ -16,22 +17,24 @@ def after_request(response):
     return response
 
 
-def auth_required(fn):
-    """
-    View decorator for access control.
+def auth_required(model):
+    def decorator(fn):
+        """
+        View decorator for access control
+        """
+        @wraps(fn)
+        @jwt_required
+        def wrapper(*args, **kwargs):
+            user = model.objects(id=get_jwt_identity()).first()
+            if not user:
+                abort(403)
 
-    ### TODO
-    If you want to access control easily with this decorator,
-    fill 'wrapper()' function included (1) aborting when access denied client (2) Set user object to flask.g
+            g.user = user
 
-    - About custom view decorator
-    -> http://flask-docs-kr.readthedocs.io/ko/latest/patterns/viewdecorators.html
-    """
-    @wraps(fn)
-    def wrapper(*args, **kwargs):
-        return fn(*args, **kwargs)
+            return fn(*args, **kwargs)
 
-    return wrapper
+        return wrapper
+    return decorator
 
 
 def json_required(*required_keys):
