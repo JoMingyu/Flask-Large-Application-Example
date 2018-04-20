@@ -5,7 +5,7 @@ from flask_restful import Api
 from app.docs.sample import *
 from app.views import BaseResource, json_required
 
-api = Api(Blueprint('sample_api', __name__))
+api = Api(Blueprint('/sample', __name__))
 api.prefix = '/prefix'
 
 
