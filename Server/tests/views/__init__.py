@@ -29,29 +29,6 @@ class TCBase(TC):
     def tearDown(self):
         pass
 
-    def json_request(self, method, target_url_rule, token=None, *args, **kwargs):
-        """
-        Helper for json request
-
-        Args:
-            method (func): Request method
-            target_url_rule (str): URL rule for request
-            token (str) : JWT or OAuth's access token with prefix(Bearer, JWT, ...)
-
-        Returns:
-            Response
-        """
-        data = kwargs.pop('data')
-
-        return method(
-            target_url_rule,
-            data=ujson.dumps(data) if data else None,
-            content_type='application/json',
-            headers={'Authorization': token or self.access_token},
-            *args,
-            **kwargs
-        )
-
     def request(self, method, target_url_rule, token=None, *args, **kwargs):
         """
         Helper for common request
