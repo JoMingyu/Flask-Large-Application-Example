@@ -1,7 +1,7 @@
 from mongoengine import *
 
 
-class Mongo(object):
+class Mongo:
     """
     MongoDB connection helper class like standard flask 3-rd party libraries
     """

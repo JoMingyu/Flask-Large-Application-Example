@@ -90,7 +90,7 @@ class BaseResource(Resource):
         )
 
 
-class Router(object):
+class Router:
     """
     REST resource routing helper class like standard flask 3-rd party libraries
     """

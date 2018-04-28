@@ -2,7 +2,7 @@ from datetime import timedelta
 import os
 
 
-class Config(object):
+class Config:
     SERVICE_NAME = 'Flask_Large_Application_Example'
     REPRESENTATIVE_HOST = None
 
