@@ -4,9 +4,9 @@ from unittest import TestCase as TC
 from flask import Response
 
 from app import create_app
-from config.dev import DevConfig
+from config.test import TestConfig
 
-app = create_app(DevConfig)
+app = create_app(TestConfig)
 
 
 class TCBase(TC):
