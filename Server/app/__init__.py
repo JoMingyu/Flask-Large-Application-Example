@@ -6,9 +6,6 @@ from flasgger import Swagger
 from app.models import Mongo
 from app.views import Router
 
-from config.dev import DevConfig
-from config.production import ProductionConfig
-
 WEB_FILE_ROOT_DIR = '../web_files'
 
 
@@ -19,7 +16,7 @@ def create_app(*config_cls):
     Returns:
         Flask
     """
-    print('[INFO] Flask application initialized with {}'.format(config_cls.__name__))
+    print('[INFO] Flask application initialized with {}'.format([config.__name__ for config in config_cls]))
 
     app_ = Flask(
         __name__,
@@ -37,6 +34,3 @@ def create_app(*config_cls):
     Router().init_app(app_)
 
     return app_
-
-
-app = create_app(DevConfig)

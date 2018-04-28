@@ -3,7 +3,10 @@ from unittest import TestCase as TC
 
 from flask import Response
 
-from app import app
+from app import create_app
+from config.dev import DevConfig
+
+app = create_app(DevConfig)
 
 
 class TCBase(TC):
@@ -71,5 +74,5 @@ class TCBase(TC):
     def decode_response_data(self, resp):
         return resp.data.decode()
 
-    def get_response_data(self, resp):
+    def get_response_data_as_json(self, resp):
         return ujson.loads(self.decode_response_data(resp))
