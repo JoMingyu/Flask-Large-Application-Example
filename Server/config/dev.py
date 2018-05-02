@@ -3,10 +3,10 @@ from config import Config
 
 class DevConfig(Config):
     HOST = 'localhost'
-    PORT = 3000
+    PORT = 5000
     DEBUG = True
 
-    Config.RUN.update({
+    RUN = dict(Config.RUN, **{
         'host': HOST,
         'port': PORT,
         'debug': DEBUG
