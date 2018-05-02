@@ -1,3 +1,4 @@
+from datetime import datetime
 from unittest import TestCase as TC
 
 import pymongo
@@ -15,10 +16,9 @@ mongo_client = pymongo.MongoClient(mongo_setting)
 
 
 class TCBase(TC):
-    __slots__ = ['access_token', 'refresh_token']
-
     def __init__(self, *args, **kwargs):
         self.client = app.test_client()
+        self.today = datetime.now().strftime('%Y-%m-%d')
 
         super(TCBase, self).__init__(*args, **kwargs)
 
