@@ -17,6 +17,12 @@ def after_request(response):
     return response
 
 
+def exception_handler(e):
+    # TODO
+
+    return '', 500
+
+
 def auth_required(model):
     def decorator(fn):
         """
@@ -101,6 +107,7 @@ class Router:
         Routes resources. Use app.register_blueprint() aggressively
         """
         app.after_request(after_request)
+        app.register_error_handler(Exception, exception_handler)
 
         from app.views import sample
         app.register_blueprint(sample.api.blueprint)
