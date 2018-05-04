@@ -8,7 +8,7 @@ class ProductionConfig(Config):
     PORT = 80
     DEBUG = False
 
-    RUN = dict(Config.RUN, **{
+    RUN_SETTING = dict(Config.RUN_SETTING, **{
         'host': HOST,
         'port': PORT,
         'debug': DEBUG

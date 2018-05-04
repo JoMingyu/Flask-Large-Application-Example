@@ -17,4 +17,6 @@ if __name__ == '__main__':
     parser.add_argument('-p', '--port', type=int)
     args = parser.parse_args()
 
-    app.run(**app.config['RUN'])
+    app.config['RUN_SETTING']['port'] = args.port or app.config['PORT']
+
+    app.run(**app.config['RUN_SETTING'])

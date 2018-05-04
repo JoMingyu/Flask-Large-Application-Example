@@ -6,7 +6,7 @@ class DevConfig(Config):
     PORT = 5000
     DEBUG = True
 
-    RUN = dict(Config.RUN, **{
+    RUN_SETTING = dict(Config.RUN_SETTING, **{
         'host': HOST,
         'port': PORT,
         'debug': DEBUG
