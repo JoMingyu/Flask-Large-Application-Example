@@ -8,6 +8,17 @@ Flask는 마이크로 웹 프레임워크입니다. Django처럼 정해져 있�
 API 문서화에 Swagger(flasgger), 데이터베이스에 MongoDB(MongoEngine), 인증 처리에 JWT(flask-jwt-extended), 데이터 압축에 gzip, 테스트에 unittest를 사용한다고 가정합니다.
 
 ## 요소
+### server.py
+```
+if __name__ == '__main__':
+    app = create_app(DevConfig)
+
+    ...
+
+    app.run(**app.config['RUN_SETTING'])
+```
+Application factory에 Config 클래스를 전달하여 Flask 인스턴스를 얻고, 해당 객체에 정의된 config를 이용해 Flask 어플리케이션을 실행합니다. Argument parser를 이용해 포트를 받거나, secret_key가 환경변수에 없는 경우 warning을 띄우는 간단한 로직들도 함께 정의되어 있습니다.
+
 ### config/\_\_init\_\_.py & config/\*\*\*.py
 #### Class based config management
 ```
