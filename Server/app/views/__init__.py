@@ -1,8 +1,9 @@
 from functools import wraps
+import gzip
 import ujson
 import time
 
-from flask import Response, abort, g, request
+from flask import Response, abort, after_this_request, g, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restful import Resource
 
@@ -21,6 +22,32 @@ def exception_handler(e):
     # TODO
 
     return '', 500
+
+
+def gzipped(fn):
+    """
+    View decorator for gzip compress the response body
+    """
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        @after_this_request
+        def zipper(response):
+            if 'gzip' not in request.headers.get('Accept-Encoding', '')\
+                    or not 200 <= response.status_code < 300\
+                    or 'Content-Encoding' in response.headers:
+                # 1. Accept-Encoding에 gzip이 포함되어 있지 않거나
+                # 2. 200번대의 status code로 response하지 않거나
+                # 3. response header에 이미 Content-Encoding이 명시되어 있는 경우
+                return response
+
+            response.data = gzip.compress(response.data)
+            response.headers['Content-Encoding'] = 'gzip'
+            response.headers['Vary'] = 'Accept-Encoding'
+            response.headers['Content-Length'] = len(response.data)
+
+            return response
+        return fn(*args, **kwargs)
+    return wrapper
 
 
 def auth_required(model):
