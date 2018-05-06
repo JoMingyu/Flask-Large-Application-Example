@@ -2,37 +2,14 @@
 This is how I structure my large Flask applications.
 
 ## About
-'나중에 쓰려고' 만든 Flask 어플리케이션 예제이자 보일러플레이트입니다. 따라서 Swagger, MongoDB + MongoEngine, JWT, unittest와 같이 지극히 개인 취향인 기능들이 많아 일반화되어있지 않고 복잡할 수 있습니다. 단순히 구조만을 보고 싶거나 Flask의 설계 원칙(micro)에 맞는 간단하고, 일반화된 Flask 어플리케이션의 예제를 보려면 <a href="https://github.com/JoMingyu/Flask-Large-Application-Example-Simplified">Flask Large Application Example - Simplified</a>를 참고하시기 바랍니다.
+Flask는 마이크로 웹 프레임워크입니다. Django처럼 정해져 있는 구조가 없어 항상 개발자에게 구조에 대한 고민을 하게 만듭니다. 이 저장소는 제가 Flask를 배우기 시작했던 때부터, 1년 가까이의 시간동안 Flask 어플리케이션의 구조에 대해 고민한 흔적입니다.
+
+## 기준
+API 문서화에 Swagger(flasgger), 데이터베이스에 MongoDB(MongoEngine), 인증 처리에 JWT(flask-jwt-extended), 데이터 압축에 gzip, 테스트에 unittest를 사용한다고 가정합니다.
 
 ## 요소
-### Application Factory(app/\_\_init\_\_.py)
-```
-def create_app(*config_cls):
-    """
-    Creates Flask instance & initialize
-
-    Returns:
-        Flask
-    """
-    app_ = Flask(
-        __name__,
-        ...
-    )
-
-    for config in config_cls:
-        app_.config.from_object(config)
-
-    ...
-
-    return app_
-```
-
-일반적인 Flask의 패턴은 `Blueprint를 가져오며 Flask 객체를 만드는 것`입니다. 그러나 이 객체의 생성을 함수 형태로 만들어 두면, 나중에 이 Flask 어플리케이션의 여러 인스턴스를 만들 수 있습니다.
-
-1. 테스트 : Flask 어플리케이션의 인스턴스를 다른 설정으로 지정하여 모든 경우를 테스트할 수 있습니다.
-2. 여러 인스턴스 : 동알한 Flask 어플리케이션의 서로 다른 버전을 실행시킨다고 가정한다면, 웹 서버에 다른 설정을 가진 다중 인스턴스를 가지도록 하는 것보다 application factory 패턴을 이용해 같은 어플리케이션의 여러 인스턴스를 편하게 사용할 수 있게 됩니다.
-
-### Class based config(config/)
+### config/\_\_init\_\_.py & config/\*\*\*.py
+#### Class based config management
 ```
 class Config:
     SERVICE_NAME = 'Flask_Large_Application_Example'
@@ -62,7 +39,36 @@ class DevConfig(Config):
 
 Flask에서 설정을 다루기 위한 방법은, config 프로퍼티가 dict-like 객체인 점을 이용한 `app.config[]`, `app.config.update()`나 해당 객체가 재정의한 메소드인 `app.config.from_envvar()`, `app.config.from_pyfile()` 등을 사용할 수 있습니다. 한가지 흥미로운 패턴은, 설정에 대해서도 클래스를 사용할 수 있으며 상속 구조도 가능하다는 것입니다. 설정 파일을 어떻게 관리하길 원하는가에 따라 다르지만, 저는 클래스 상속 구조 형태로 설정 값들을 다룰 경우 간결하고 이상적이라고 보고 있습니다.
 
-### flask-restful의 pluggable view-like resource(app/views/sample.py)
+### app/\_\_init\_\_.py
+#### Application Factory
+```
+def create_app(*config_cls):
+    """
+    Creates Flask instance & initialize
+
+    Returns:
+        Flask
+    """
+    app_ = Flask(
+        __name__,
+        ...
+    )
+
+    for config in config_cls:
+        app_.config.from_object(config)
+
+    ...
+
+    return app_
+```
+
+일반적인 Flask의 패턴은 `Blueprint를 가져오며 Flask 객체를 만드는 것`입니다. 그러나 이 객체의 생성을 함수 형태로 만들어 두면, 나중에 이 Flask 어플리케이션의 여러 인스턴스를 만들 수 있습니다.
+
+1. 테스트 : Flask 어플리케이션의 인스턴스를 다른 설정으로 지정하여 모든 경우를 테스트할 수 있습니다.
+2. 여러 인스턴스 : 동알한 Flask 어플리케이션의 서로 다른 버전을 실행시킨다고 가정한다면, 웹 서버에 다른 설정을 가진 다중 인스턴스를 가지도록 하는 것보다 application factory 패턴을 이용해 같은 어플리케이션의 여러 인스턴스를 편하게 사용할 수 있게 됩니다.
+
+### app/views/sample.py
+#### flask-restful의 pluggable view-like resource routing
 Flask 튜토리얼 등에서 사용하는 건 함수 기반의 라우팅입니다.
 
 ```
@@ -93,7 +99,9 @@ class Sample(Resource):
         }
 ```
 
-이와 같이 각 모듈에서 블루프린트 기반으로 리소스를 정의해 두고, 아래처럼 Flask 인스턴스에 블루프린트를 할당하는 방식입니다.
+### app/views/\_\_init\_\_.py
+#### Router
+위에서 정의한 블루프린트 기반의 리소스들을 Flask 인스턴스에 할당합니다.
 
 ```
 class Router(object):
@@ -105,8 +113,7 @@ class Router(object):
         from app.views import sample
         app.register_blueprint(sample.api.blueprint)
 ```
-
-### BaseResource(app/views/\_\_init\_\_.py)
+#### BaseResource
 flask-restful.Resource(flask.views.MethodView) 클래스를 상속받은 클래스입니다. 파이썬이 유니코드 형태로 문자열을 다루기 때문에 생기는 문제 등을 해결하고 몇가지 유의미한 인스턴스 변수들을 제공합니다. view function에서 자주 사용할만한 기능들을 여기에 메소드화하여 API 리소스를 재사용성 높게 설계할 수 있습니다.
 
 ```
@@ -124,8 +131,8 @@ class BaseResource(Resource):
         )
 ```
 
-### 뷰 데코레이터(app/views/\_\_init\_\_.py)
-[뷰 데코레이터](http://flask-docs-kr.readthedocs.io/ko/latest/patterns/viewdecorators.html)는 각 뷰 함수에 추가적인 기능을 주입하는 데 사용될 데코레이터입니다. 여기서는 `@auth_required`, `@json_required` 데코레이터를 만들어 두었습니다. 이들은 application context와 request context에 모두 접근할 수 있어, g 객체를 활용한 유연한 비즈니스 로직을 작성하기에 유리합니다.
+#### auth_required & json_required & gzipped & ...
+[뷰 데코레이터](http://flask-docs-kr.readthedocs.io/ko/latest/patterns/viewdecorators.html)는 각 뷰 함수에 추가적인 기능을 주입하는 데 사용될 데코레이터입니다. 이들은 application context와 request context에 모두 접근할 수 있어, g나 current_app을 활용한 유연한 비즈니스 로직을 작성하기에 유리합니다.
 
 ```
 def auth_required(model):
@@ -157,7 +164,7 @@ def json_required(*required_keys):
     return decorator
 ```
 
-### Error handler, request context callback(app/views/\_\_init\_\_.py)
+#### Error handler, request context callback
 API 보안을 위한 헤더 설정을 위해 request context callback인 `after_request`와 서버에서 발생하는 오류를 잡아 특정 로직을 수행하기 위한 보일러플레이트인 `exception_handler`를 정의하였습니다.
 
 ```
@@ -170,10 +177,11 @@ def after_request(response):
 def exception_handler(e):
     # TODO
 
-    return e
+    return '', 500
 ```
 
-### TCBase(tests/views/\_\_init\_\_.py)
+### tests/views/\_\_init\_\_.py
+#### TCBase
 unittest로 테스트 시, test fixture의 중복을 제거하기 위해 만들어 둔 베이스 클래스입니다. 테스트 작성 시 request 코드를 짧게 작성하고 response 데이터를 쉽게 가공하기 위한 헬퍼 메소드 몇가지도 정의되어 있습니다. 이전에는 json_request 메소드도 함께 존재하였으나, Flask 1.0에선 Flask test client의 요청 메소드에서 json 파라미터를 제공하기 때문에 제거하였습니다.
 
 ```
