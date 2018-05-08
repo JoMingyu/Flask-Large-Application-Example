@@ -13,6 +13,6 @@ api.prefix = '/prefix'
 class Sample(BaseResource):
     @swag_from(SAMPLE_POST)
     @gzipped
-    @json_required('name', 'age')
+    @json_required({'name': str, 'age': int})
     def post(self):
         return self.unicode_safe_json_dumps(request.json, 201)

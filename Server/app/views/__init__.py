@@ -69,7 +69,7 @@ def auth_required(model):
     return decorator
 
 
-def json_required(*required_keys):
+def json_required(required_keys):
     """
     View decorator for JSON validation.
 
@@ -77,7 +77,7 @@ def json_required(*required_keys):
     - If required_keys are not exist on request.json : returns status code 400
 
     Args:
-        *required_keys: Required keys on requested JSON payload
+        required_keys (dict): Required keys on requested JSON payload
     """
     def decorator(fn):
         if fn.__name__ == 'get':
@@ -88,8 +88,10 @@ def json_required(*required_keys):
             if not request.is_json:
                 abort(406)
 
-            for required_key in required_keys:
-                if required_key not in request.json:
+            for key, typ in required_keys.items():
+                if key not in request.json or not isinstance(request.json[key], typ):
+                    abort(400)
+                if typ is str and not request.json[key]:
                     abort(400)
 
             return fn(*args, **kwargs)
