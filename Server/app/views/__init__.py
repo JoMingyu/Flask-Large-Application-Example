@@ -19,7 +19,7 @@ def after_request(response):
 
 
 def exception_handler(e):
-    # TODO
+    print(e)
 
     return '', 500
 
