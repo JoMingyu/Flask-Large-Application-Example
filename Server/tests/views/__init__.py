@@ -12,7 +12,7 @@ app = create_app(TestConfig)
 
 mongo_setting = app.config['MONGODB_SETTINGS']
 db_name = mongo_setting.pop('db')
-mongo_client = pymongo.MongoClient(mongo_setting)
+mongo_client = pymongo.MongoClient(**mongo_setting)
 
 
 class TCBase(TC):
