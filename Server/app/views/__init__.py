@@ -112,7 +112,7 @@ class BaseResource(Resource):
         Helper function which processes json response with unicode using ujson
 
         Args:
-            data (dict or list): Data for dump to JSON
+            data (dict and list): Data for dump to JSON
             status_code (int): Status code for response
         """
         return Response(
