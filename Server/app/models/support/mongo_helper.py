@@ -4,8 +4,6 @@ from decimal import Decimal
 
 from mongoengine.base import BaseDocument
 
-from app.models import *
-
 
 def _list_field_to_dict(list_field):
     """
@@ -14,7 +12,7 @@ def _list_field_to_dict(list_field):
     return_data = []
 
     for item in list_field:
-        if isinstance(item, EmbeddedDocument):
+        if isinstance(item, BaseDocument):
             return_data.append(mongo_to_dict(item, []))
         else:
             return_data.append(_field_value_to_python_type(item, True))
@@ -31,7 +29,7 @@ def _field_value_to_python_type(data, escape_datetime=False):
         return float(data)
     elif isinstance(data, list):
         return _list_field_to_dict(data)
-    elif isinstance(data, EmbeddedDocument):
+    elif isinstance(data, BaseDocument):
         return mongo_to_dict(data, ['_cls'])
     else:
         # dict, str, float, int, ...
