@@ -6,7 +6,6 @@ class Config:
     SERVICE_NAME = 'Flask_Large_Application_Example'
     REPRESENTATIVE_HOST = None
 
-    RUN_COMMAND = 'python3 server.py'
     RUN_SETTING = {
         'threaded': True
     }
