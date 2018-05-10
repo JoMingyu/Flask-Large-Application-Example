@@ -1,9 +1,11 @@
 from functools import wraps
 import gzip
-import ujson
+import os
 import time
 
-from flask import Response, abort, after_this_request, g, request
+import ujson
+
+from flask import Response, abort, after_this_request, current_app, g, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restful import Resource
 
@@ -22,6 +24,13 @@ def exception_handler(e):
     print(e)
 
     return '', 500
+
+
+def webhook_handler():
+    if request.headers['X-GitHub-Event'] == 'push':
+        os.system('. ../hook.sh {} {}'.format(current_app.config['PORT'], current_app.config['RUN_COMMAND']))
+
+    return ''
 
 
 def gzipped(fn):
@@ -137,6 +146,7 @@ class Router:
         """
         app.after_request(after_request)
         app.register_error_handler(Exception, exception_handler)
+        # app.add_url_rule('/webhook', view_func=webhook_handler, methods=['POST'])
 
         from app.views import sample
         app.register_blueprint(sample.api.blueprint)
