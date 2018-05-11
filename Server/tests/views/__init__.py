@@ -14,6 +14,7 @@ class TCBase(TC):
     mongo_setting = app.config['MONGODB_SETTINGS']
     db_name = mongo_setting.pop('db')
     mongo_client = pymongo.MongoClient(**mongo_setting)
+    mongo_setting['db'] = db_name
 
     def __init__(self, *args, **kwargs):
         self.client = app.test_client()
