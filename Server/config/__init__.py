@@ -4,6 +4,7 @@ import os
 
 class Config:
     SERVICE_NAME = 'Flask_Large_Application_Example'
+    SERVICE_NAME_UPPER = SERVICE_NAME.upper()
     REPRESENTATIVE_HOST = None
 
     RUN_SETTING = {
@@ -19,8 +20,10 @@ class Config:
 
     MONGODB_SETTINGS = {
         'db': SERVICE_NAME,
+        'host': None,
+        'port': None,
         'username': None,
-        'password': None
+        'password': os.getenv('MONGO_PW_{}'.format(SERVICE_NAME_UPPER))
     }
 
     SWAGGER = {
