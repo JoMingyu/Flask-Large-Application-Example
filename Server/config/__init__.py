@@ -26,6 +26,21 @@ class Config:
         'password': os.getenv('MONGO_PW_{}'.format(SERVICE_NAME_UPPER))
     }
 
+    REDIS_SETTINGS = {
+        'host': 'localhost',
+        'port': 6379,
+        'password': os.getenv('REDIS_PW_{}'.format(SERVICE_NAME_UPPER)),
+        'db': 0
+    }
+
+    INFLUXDB_SETTINGS = {
+        'host': 'localhost',
+        'port': 8086,
+        'username': 'root',
+        'password': os.getenv('INFLUX_PW_{}'.format(SERVICE_NAME_UPPER), 'root'),
+        'database': SERVICE_NAME.replace('-', '_')
+    }
+
     SWAGGER = {
         'title': SERVICE_NAME,
         'specs_route': os.getenv('SWAGGER_URI', '/docs'),
