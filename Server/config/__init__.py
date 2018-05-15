@@ -19,11 +19,11 @@ class Config:
     JWT_HEADER_TYPE = 'JWT'
 
     MONGODB_SETTINGS = {
-        'db': SERVICE_NAME,
         'host': None,
         'port': None,
         'username': None,
-        'password': os.getenv('MONGO_PW_{}'.format(SERVICE_NAME_UPPER))
+        'password': os.getenv('MONGO_PW_{}'.format(SERVICE_NAME_UPPER)),
+        'db': SERVICE_NAME
     }
 
     REDIS_SETTINGS = {
