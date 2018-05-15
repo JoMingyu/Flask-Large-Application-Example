@@ -4,7 +4,7 @@ import time
 
 import ujson
 
-from flask import Response, abort, after_this_request, g, request
+from flask import Response, abort, after_this_request, g, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restful import Resource
 from werkzeug.exceptions import HTTPException
@@ -24,11 +24,18 @@ def exception_handler(e):
     print(e)
 
     if isinstance(e, HTTPException):
-        return e.description, e.code
+        description = e.description
+        code = e.code
     elif isinstance(e, BaseResource.ValidationError):
-        return e.description, 400
+        description = e.description
+        code = 400
     else:
-        return '', 500
+        description = ''
+        code = 500
+
+    return jsonify({
+        'msg': description
+    }), code
 
 
 def gzipped(fn):
