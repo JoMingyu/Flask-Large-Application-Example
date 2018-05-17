@@ -19,19 +19,23 @@ class TCBase(TC):
     def __init__(self, *args, **kwargs):
         self.client = app.test_client()
         self.today = datetime.now().strftime('%Y-%m-%d')
+        self.now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        self.token_regex = '(\w+\.){2}\w+'
 
         super(TCBase, self).__init__(*args, **kwargs)
 
     def _create_fake_account(self):
-        pass
+        self.primary_user = None
+        self.secondary_user = None
 
-    def _get_tokens(self):
-        self.access_token = None
-        self.refresh_token = None
+    def _generate_tokens(self):
+        with app.app_context():
+            self.access_token = None
+            self.refresh_token = None
 
     def setUp(self):
         self._create_fake_account()
-        self._get_tokens()
+        self._generate_tokens()
 
     def tearDown(self):
         self.mongo_client.drop_database(self.db_name)
