@@ -30,8 +30,10 @@ class TCBase(TC):
 
     def _generate_tokens(self):
         with app.app_context():
-            self.access_token = None
-            self.refresh_token = None
+            self.primary_user_access_token = None
+            self.primary_user_refresh_token = None
+            self.secondary_user_access_token = None
+            self.secondary_user_refresh_token = None
 
     def setUp(self):
         self._create_fake_account()
@@ -54,7 +56,7 @@ class TCBase(TC):
         """
         return method(
             target_url_rule,
-            headers={'Authorization': token or self.access_token},
+            headers={'Authorization': token or self.primary_user_access_token},
             *args,
             **kwargs
         )
