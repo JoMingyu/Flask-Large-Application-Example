@@ -17,10 +17,11 @@ class TCBase(TC):
     mongo_setting['db'] = db_name
 
     def __init__(self, *args, **kwargs):
-        self.client = app.test_client()
+        self.app = app
+        self.client = self.app.test_client()
         self.today = datetime.now().strftime('%Y-%m-%d')
         self.now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        self.token_regex = '(\w+\.){2}\w+'
+        self.token_regex = '([\w\-\_]+\.){2}[\w\-\_]+'
 
         super(TCBase, self).__init__(*args, **kwargs)
 
