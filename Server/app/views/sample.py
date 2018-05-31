@@ -15,7 +15,9 @@ class Sample(BaseResource):
     @gzipped
     @json_required({'name': str, 'age': int})
     def post(self):
-        if not request.json['age']:
+        payload = request.json
+
+        if not payload['age']:
             raise self.ValidationError('Age is 0!')
 
-        return self.unicode_safe_json_dumps(request.json, 201)
+        return self.unicode_safe_json_dumps(payload, 201)
