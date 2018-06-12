@@ -43,18 +43,7 @@ class TCBase(TC):
     def tearDown(self):
         self.mongo_client.drop_database(self.db_name)
 
-    def request(self, method, target_url_rule, token=None, *args, **kwargs):
-        """
-        Helper for common request
-
-        Args:
-            method (func): Request method
-            target_url_rule (str): URL rule for request
-            token (str) : JWT or OAuth's access token with prefix(Bearer, JWT, ...)
-
-        Returns:
-            Response
-        """
+    def request(self, method, target_url_rule, token=None, *args, **kwargs) -> Response:
         return method(
             target_url_rule,
             headers={'Authorization': token or self.primary_user_access_token},
