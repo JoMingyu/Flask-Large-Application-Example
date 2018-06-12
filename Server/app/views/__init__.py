@@ -101,7 +101,7 @@ def json_required(required_keys):
                 abort(406)
 
             for key, typ in required_keys.items():
-                if key not in request.json or not type(request.json[key]) is typ:
+                if key not in request.json or type(request.json[key]) is not typ:
                     abort(400)
                 if typ is str and not request.json[key]:
                     abort(400)

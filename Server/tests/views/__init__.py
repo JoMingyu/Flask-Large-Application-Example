@@ -1,3 +1,5 @@
+import copy
+
 from datetime import datetime
 from unittest import TestCase as TC
 
@@ -7,17 +9,15 @@ from flask import Response
 from app import create_app
 from config.test import TestConfig
 
-app = create_app(TestConfig)
-
 
 class TCBase(TC):
-    mongo_setting = app.config['MONGODB_SETTINGS']
-    db_name = mongo_setting.pop('db')
-    mongo_client = pymongo.MongoClient(**mongo_setting)
-    mongo_setting['db'] = db_name
-
     def __init__(self, *args, **kwargs):
-        self.app = app
+        self.app = create_app(TestConfig)
+
+        mongo_setting = copy.copy(self.app.config['MONGODB_SETTINGS'])
+        self.db_name = mongo_setting.pop('db')
+        self.mongo_client = pymongo.MongoClient(**mongo_setting)
+
         self.client = self.app.test_client()
         self.today = datetime.now().strftime('%Y-%m-%d')
         self.now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -30,7 +30,7 @@ class TCBase(TC):
         self.secondary_user = None
 
     def _generate_tokens(self):
-        with app.app_context():
+        with self.app.app_context():
             self.primary_user_access_token = None
             self.primary_user_refresh_token = None
             self.secondary_user_access_token = None
