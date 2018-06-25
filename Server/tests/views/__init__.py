@@ -5,6 +5,7 @@ from unittest import TestCase as TC
 
 import pymongo
 from flask import Response
+from redis import Redis
 
 from app import create_app
 from config.test import TestConfig
@@ -17,6 +18,8 @@ class TCBase(TC):
         mongo_setting = copy.copy(self.app.config['MONGODB_SETTINGS'])
         self.db_name = mongo_setting.pop('db')
         self.mongo_client = pymongo.MongoClient(**mongo_setting)
+
+        self.redis_client = Redis(**self.app.config['REDIS_SETTINGS'])
 
         self.client = self.app.test_client()
         self.today = datetime.now().strftime('%Y-%m-%d')
@@ -42,11 +45,17 @@ class TCBase(TC):
 
     def tearDown(self):
         self.mongo_client.drop_database(self.db_name)
+        self.redis_client.flushall()
 
     def request(self, method, target_url_rule, token=None, *args, **kwargs) -> Response:
+        token = token or self.primary_user_access_token
+
+        if not token.startswith('JWT'):
+            token = 'JWT ' + token
+
         return method(
             target_url_rule,
-            headers={'Authorization': token or self.primary_user_access_token},
+            headers={'Authorization': token},
             *args,
             **kwargs
         )
