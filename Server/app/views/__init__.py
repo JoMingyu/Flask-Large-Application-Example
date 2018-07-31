@@ -112,14 +112,9 @@ class BaseResource(Resource):
             super(BaseResource.ValidationError, self).__init__(*args)
 
 
-class Router:
-    def __init__(self, app=None):
-        if app is not None:
-            self.init_app(app)
+def route(app):
+    app.after_request(after_request)
+    app.register_error_handler(Exception, exception_handler)
 
-    def init_app(self, app):
-        app.after_request(after_request)
-        app.register_error_handler(Exception, exception_handler)
-
-        from app.views import sample
-        app.register_blueprint(sample.api.blueprint)
+    from app.views import sample
+    app.register_blueprint(sample.api.blueprint)

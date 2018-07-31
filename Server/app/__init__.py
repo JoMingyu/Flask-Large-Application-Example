@@ -7,7 +7,7 @@ from influxdb import InfluxDBClient
 
 from mongoengine import connect
 
-from app.views import Router
+from app.views import route
 
 WEB_FILE_ROOT_DIR = '../web_files'
 
@@ -27,7 +27,7 @@ def create_app(*config_cls) -> Flask:
     CORS().init_app(app_)
     JWTManager().init_app(app_)
     Swagger(template=app_.config['SWAGGER_TEMPLATE']).init_app(app_)
-    Router().init_app(app_)
+    route(app_)
 
     connect(**app_.config['MONGODB_SETTINGS'])
     app_.config['REDIS_CLIENT'] = Redis(**app_.config['REDIS_SETTINGS'])
