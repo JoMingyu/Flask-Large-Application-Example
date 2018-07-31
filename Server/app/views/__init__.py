@@ -1,8 +1,7 @@
 from functools import wraps
+import json
 import gzip
 import time
-
-import ujson
 
 from flask import Response, abort, after_this_request, g, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -100,7 +99,7 @@ class BaseResource(Resource):
     @classmethod
     def unicode_safe_json_dumps(cls, data, status_code=200, **kwargs) -> Response:
         return Response(
-            ujson.dumps(data, ensure_ascii=False),
+            json.dumps(data, ensure_ascii=False),
             status_code,
             content_type='application/json; charset=utf8',
             **kwargs
