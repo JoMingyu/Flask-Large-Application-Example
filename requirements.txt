@@ -25,9 +25,6 @@ Werkzeug == 0.14.1
 # Server/app/views/sample.py: 1
 flasgger == 0.8.3
 
-# Server/app/__init__.py: 6
-influxdb == 5.0.0
-
 # Server/app/__init__.py: 8
 # Server/app/models/support/mongo_helper.py: 5
 mongoengine == 0.15.0
