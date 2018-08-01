@@ -1,9 +1,8 @@
 from functools import wraps
 import json
-import gzip
 import time
 
-from flask import Response, abort, after_this_request, g, jsonify, request
+from flask import Response
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restful import Resource
 from werkzeug.exceptions import HTTPException
@@ -16,49 +15,6 @@ def after_request(response):
     return response
 
 
-def exception_handler(e):
-    print(e)
-
-    if isinstance(e, HTTPException):
-        description = e.description
-        code = e.code
-    elif isinstance(e, BaseResource.ValidationError):
-        description = e.description
-        code = 400
-    else:
-        description = ''
-        code = 500
-
-    return jsonify({
-        'msg': description
-    }), code
-
-
-def gzipped(fn):
-    @wraps(fn)
-    def wrapper(*args, **kwargs):
-        @after_this_request
-        def zipper(response):
-            if 'gzip' not in request.headers.get('Accept-Encoding', '')\
-                    or not 200 <= response.status_code < 300\
-                    or 'Content-Encoding' in response.headers:
-                # 1. Accept-Encoding에 gzip이 포함되어 있지 않거나
-                # 2. 200번대의 status code로 response하지 않거나
-                # 3. response header에 이미 Content-Encoding이 명시되어 있는 경우
-                return response
-
-            response.data = gzip.compress(response.data)
-            response.headers.update({
-                'Content-Encoding': 'gzip',
-                'Vary': 'Accept-Encoding',
-                'Content-Length': len(response.data)
-            })
-
-            return response
-        return fn(*args, **kwargs)
-    return wrapper
-
-
 def auth_required(model):
     def decorator(fn):
         @wraps(fn)
@@ -67,27 +23,6 @@ def auth_required(model):
             raise NotImplementedError()
 
             # return fn(*args, **kwargs)
-        return wrapper
-    return decorator
-
-
-def json_required(required_keys, check_blank_str=True):
-    def decorator(fn):
-        if fn.__name__ == 'get':
-            print('[WARN] JSON with GET method? on "{}()"'.format(fn.__qualname__))
-
-        @wraps(fn)
-        def wrapper(*args, **kwargs):
-            if not request.is_json:
-                abort(406)
-
-            for key, typ in required_keys.items():
-                if key not in request.json or type(request.json[key]) is not typ:
-                    abort(400)
-                if check_blank_str and typ is str and not request.json[key]:
-                    abort(400)
-
-            return fn(*args, **kwargs)
         return wrapper
     return decorator
 
@@ -112,9 +47,32 @@ class BaseResource(Resource):
             super(BaseResource.ValidationError, self).__init__(*args)
 
 
-def route(app):
-    app.after_request(after_request)
-    app.register_error_handler(Exception, exception_handler)
+def _register_error_handlers(blueprint):
+    from app import error_handlers
 
+    blueprint.register_error_handler(HTTPException, error_handlers.http_exception_handler)
+    blueprint.register_error_handler(BaseResource.ValidationError, error_handlers.validation_error_handler)
+    blueprint.register_error_handler(Exception, error_handlers.broad_exception_error_handler)
+
+
+def load_api():
     from app.views import sample
-    app.register_blueprint(sample.api.blueprint)
+
+
+def route(app):
+    from app import api_v1_blueprint
+
+    _register_error_handlers(api_v1_blueprint)
+    api_v1_blueprint.after_request(after_request)
+
+    load_api()
+
+    handle_exception_func = app.handle_exception
+    handle_user_exception_func = app.handle_user_exception
+    # register_blueprint 시 defer되었던 함수들이 호출되며, flask-restful.Api._init_app()이 호출되는데
+    # 해당 메소드가 app 객체의 에러 핸들러를 오버라이딩해서, 별도로 적용한 handler의 HTTPException 관련 로직이 동작하지 않음
+    # 따라서 두 함수를 임시 저장해 두고, register_blueprint 이후 함수를 재할당하도록 함
+
+    app.register_blueprint(api_v1_blueprint)
+    app.handle_user_exception = handle_exception_func
+    app.handle_user_exception = handle_user_exception_func

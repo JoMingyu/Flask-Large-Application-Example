@@ -1,19 +1,18 @@
 from flasgger import swag_from
-from flask import Blueprint, request
+from flask import request
 from flask_restful import Api
 
+from app import api_v1_blueprint
 from app.docs.sample import *
-from app.views import BaseResource, json_required, gzipped
+from app.views import BaseResource
 
-api = Api(Blueprint('/sample', __name__))
+api = Api(api_v1_blueprint)
 api.prefix = '/prefix'
 
 
 @api.resource('/sample')
 class Sample(BaseResource):
     @swag_from(SAMPLE_POST)
-    @gzipped
-    @json_required({'name': str, 'age': int})
     def post(self):
         payload = request.json
 
