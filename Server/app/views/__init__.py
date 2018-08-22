@@ -74,5 +74,5 @@ def route(app):
     # 따라서 두 함수를 임시 저장해 두고, register_blueprint 이후 함수를 재할당하도록 함
 
     app.register_blueprint(api_v1_blueprint)
-    app.handle_user_exception = handle_exception_func
+    app.handle_exception = handle_exception_func
     app.handle_user_exception = handle_user_exception_func
