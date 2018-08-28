@@ -1,4 +1,4 @@
-from flask import Blueprint, Flask
+from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flasgger import Swagger
@@ -7,8 +7,6 @@ from redis import Redis
 from mongoengine import connect
 
 from app.views import route
-
-api_v1_blueprint = Blueprint('api', __name__)
 
 
 def create_app(*config_cls) -> Flask:
