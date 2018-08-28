@@ -2,12 +2,15 @@ from functools import wraps
 import json
 import time
 
-from flask import Response
+from flask import Blueprint, Response
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restful import Resource
 from werkzeug.exceptions import HTTPException
 
+api_v1_blueprint = Blueprint('api', __name__)
 
+
+@api_v1_blueprint.after_request
 def after_request(response):
     response.headers['X-Content-Type-Options'] = 'nosniff'
     response.headers['X-Frame-Options'] = 'deny'
@@ -60,10 +63,7 @@ def load_api():
 
 
 def route(app):
-    from app import api_v1_blueprint
-
     _register_error_handlers(api_v1_blueprint)
-    api_v1_blueprint.after_request(after_request)
 
     load_api()
 
