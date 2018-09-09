@@ -4,7 +4,8 @@ from flask_restful import Api
 from flask_validation import validate_keys
 
 from app.docs.sample import *
-from app.views import BaseResource, api_v1_blueprint
+from app.blueprints import api_v1_blueprint
+from app.views import BaseResource
 
 api = Api(api_v1_blueprint)
 api.prefix = '/prefix'

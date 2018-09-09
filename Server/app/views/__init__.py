@@ -1,17 +1,8 @@
 import json
 import time
 
-from flask import Blueprint, Response
+from flask import Response
 from flask_restful import Resource
-from werkzeug.exceptions import HTTPException
-
-from app import errorhandlers, callback_decorators
-
-api_v1_blueprint = Blueprint('api', __name__, url_prefix='/api/v1')
-
-api_v1_blueprint.register_error_handler(HTTPException, errorhandlers.http_exception_handler)
-api_v1_blueprint.register_error_handler(Exception, errorhandlers.broad_exception_error_handler)
-api_v1_blueprint.after_request(callback_decorators.after_request)
 
 
 class BaseResource(Resource):

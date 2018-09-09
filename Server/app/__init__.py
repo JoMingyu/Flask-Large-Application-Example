@@ -4,7 +4,7 @@ from redis import Redis
 from mongoengine import connect
 
 from app import extensions
-from app.views import api_v1_blueprint
+from app.blueprints import api_v1_blueprint
 
 # -- API load
 from app.views import sample
