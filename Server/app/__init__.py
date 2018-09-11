@@ -37,7 +37,7 @@ def register_blueprints(app):
 
 
 def create_app(*config_cls) -> Flask:
-    print('[INFO] Flask application initialized with {}'.format([config.__name__ for config in config_cls]))
+    print('[INFO] Flask application initialized with {}'.format(', '.join([config.__name__ for config in config_cls])))
 
     app = Flask(__name__)
 
