@@ -1,5 +1,4 @@
 from flask import Flask
-from redis import Redis
 
 from mongoengine import connect
 
@@ -22,7 +21,6 @@ def register_extensions(app):
 
 def connect_databases(app):
     connect(**app.config['MONGODB_SETTINGS'])
-    app.config['REDIS_CLIENT'] = Redis(**app.config['REDIS_SETTINGS'])
 
 
 def register_blueprints(app):

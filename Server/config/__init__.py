@@ -25,13 +25,6 @@ class Config:
         'db': SERVICE_NAME
     }
 
-    REDIS_SETTINGS = {
-        'host': 'localhost',
-        'port': 6379,
-        'password': os.getenv('REDIS_PW_{}'.format(SERVICE_NAME_UPPER)),
-        'db': 0
-    }
-
     SWAGGER = {
         'title': SERVICE_NAME,
         'specs_route': os.getenv('SWAGGER_URI', '/docs'),
