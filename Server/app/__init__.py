@@ -4,6 +4,7 @@ from mongoengine import connect
 
 from app import extensions
 from app.blueprints import api_v1_blueprint
+from app.request_context_hooks import after_request
 
 # -- API load
 from app.views import sample
@@ -34,6 +35,10 @@ def register_blueprints(app):
 
     app.handle_exception = handle_exception_func
     app.handle_user_exception = handle_user_exception_func
+
+
+def register_request_context_hooks(app):
+    app.after_request(after_request)
 
 
 def create_app(*config_cls) -> Flask:
