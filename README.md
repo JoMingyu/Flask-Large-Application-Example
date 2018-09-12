@@ -4,8 +4,8 @@ This is how I structure my large Flask applications.
 ## About
 Flask는 마이크로 웹 프레임워크입니다. Django처럼 정해져 있는 구조가 없어 항상 개발자에게 구조에 대한 고민을 하게 만듭니다. 이 저장소는 제가 Flask를 배우기 시작했던 때부터, 1년 가까이의 시간동안 Flask 어플리케이션의 구조에 대해 고민한 흔적입니다.
 
-## 기준
-API 문서화에 Swagger(flasgger), 데이터베이스에 MongoDB(MongoEngine), 캐시에 Redis, 로그 저장소에 InfluxDB, 인증 처리에 JWT(flask-jwt-extended), 데이터 압축에 gzip, 테스트 프레임워크에 unittest를 사용한다고 가정합니다.
+## Abstract
+![](./abstract.png)
 
 ## 요소
 ### server.py
