@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flasgger = "==0.8.3"
+mongoengine = "==0.15.0"
+pymongo = "==3.6.1"
+Flask = "==1.0.2"
+Flask-Cors = "==3.0.4"
+Flask-JWT-Extended = "==3.9.1"
+Flask-RESTful = "==0.3.6"
+Werkzeug = "==0.14.1"
+flask-mongoengine = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"
