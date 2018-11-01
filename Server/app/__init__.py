@@ -1,7 +1,7 @@
 from flask import Flask
 from werkzeug.exceptions import HTTPException
 
-from app.misc.logger import logger
+from app.misc.log import log
 
 
 def register_extensions(flask_app):
@@ -43,8 +43,8 @@ def register_hooks(flask_app):
 
 
 def create_app(*config_cls) -> Flask:
-    logger(message='Flask application initialized with {}'.format(', '.join([config.__name__ for config in config_cls])),
-            type='INFO')
+    log(message='Flask application initialized with {}'.format(', '.join([config.__name__ for config in config_cls])),
+        type='INFO')
             
     flask_app = Flask(__name__)
 
