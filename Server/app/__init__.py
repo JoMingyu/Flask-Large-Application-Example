@@ -11,7 +11,6 @@ def register_extensions(flask_app):
 
     extensions.cors.init_app(flask_app)
     extensions.jwt.init_app(flask_app)
-    extensions.mongoengine.init_app(flask_app)
     extensions.validator.init_app(flask_app)
     extensions.swagger.init_app(flask_app)
 
