@@ -45,11 +45,7 @@ class Config:
 
 
 class LocalDBConfig:
-    MONGODB_SETTINGS = {
-        'host': 'localhost',
-        'port': 27017,
-        'db': 'PlanA'
-    }
+    pass
 
 
 class RemoteDBConfig:
