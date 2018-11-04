@@ -1,4 +1,5 @@
 from flask import jsonify
+from werkzeug.exceptions import InternalServerError
 
 
 def http_exception_handler(e):
