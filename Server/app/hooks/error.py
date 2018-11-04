@@ -3,11 +3,13 @@ from flask import jsonify
 
 def http_exception_handler(e):
     return jsonify({
-        'msg': e.description
+        'result': e.name,
+        'hint': e.description
     }), e.code
 
 
 def broad_exception_error_handler(e):
     return jsonify({
-        'msg': str(e),
+        'result': InternalServerError.description,
+        'hint': str(e),
     }), 500
