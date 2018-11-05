@@ -8,3 +8,6 @@ def log(message: str, keyword: str="WARN"):
         print(colored('[ERROR] ' + message, 'red'))
     elif keyword == "INFO":
         print(colored('[INFO]', 'blue'), message)
+    else: 
+        print(colored('[{}]'.format(type), 'cyan'), message)
+
