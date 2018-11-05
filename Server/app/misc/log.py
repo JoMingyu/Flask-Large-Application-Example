@@ -1,10 +1,10 @@
 from termcolor import colored
 
 
-def log(message: str, type: str="WARN"):
-    if type == "WARN":
+def log(message: str, keyword: str="WARN"):
+    if keyword == "WARN":
         print(colored('[WARN]', 'yellow'), message)
-    elif type == "ERROR":
+    elif keyword == "ERROR":
         print(colored('[ERROR] ' + message, 'red'))
-    elif type == "INFO":
+    elif keyword == "INFO":
         print(colored('[INFO]', 'blue'), message)
