@@ -4,7 +4,7 @@ from werkzeug.exceptions import HTTPException
 from app.misc.log import log
 
 
-def register_extensions(flask_app):
+def register_extensions(flask_app: Flask):
     from app import extensions
 
     extensions.swagger.template = flask_app.config['SWAGGER_TEMPLATE']
@@ -15,7 +15,7 @@ def register_extensions(flask_app):
     extensions.swagger.init_app(flask_app)
 
 
-def register_blueprints(flask_app):
+def register_blueprints(flask_app: Flask):
     from app.blueprints import api_v1_blueprint
     from app.views import sample
     # API load
@@ -32,7 +32,7 @@ def register_blueprints(flask_app):
     flask_app.handle_user_exception = handle_user_exception_func
 
 
-def register_hooks(flask_app):
+def register_hooks(flask_app: Flask):
     from app.hooks.error import broad_exception_error_handler, http_exception_handler
     from app.hooks.request_context import after_request
 

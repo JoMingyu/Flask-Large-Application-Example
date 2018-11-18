@@ -10,4 +10,3 @@ def log(message: str, keyword: str="WARN"):
         print(colored('[INFO]', 'blue'), message)
     else: 
         print(colored('[{}]'.format(type), 'cyan'), message)
-
