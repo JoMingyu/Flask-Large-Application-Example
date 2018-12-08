@@ -1,8 +1,10 @@
 import json
 from typing import Union, List, Dict
 
-from flask import Response
-from flask_restful import Resource
+from flask import Flask, Response
+from flask_restful import Api, Resource
+
+from app.blueprints import api_v1_blueprint
 
 
 class BaseResource(Resource):
@@ -14,3 +16,14 @@ class BaseResource(Resource):
             content_type='application/json; charset=utf8',
             **kwargs
         )
+
+
+def route(flask_app: Flask):
+    from app.views.sample import sample
+    # circular import 방어
+
+    api_v1 = Api(api_v1_blueprint)
+
+    api_v1.add_resource(sample.Sample, '/sample')
+
+    flask_app.register_blueprint(api_v1_blueprint)
