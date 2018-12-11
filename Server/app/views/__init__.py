@@ -1,11 +1,11 @@
-from flask import Flask
+from flask import Blueprint, Flask
 from flask_restful import Api
-
-from app.blueprints import api_v1_blueprint
 
 
 def route(flask_app: Flask):
     from app.views.sample import sample
+
+    api_v1_blueprint = Blueprint('api_v1', __name__, url_prefix='/api/v1')
 
     api_v1 = Api(api_v1_blueprint)
 
