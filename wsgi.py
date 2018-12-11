@@ -1,8 +1,8 @@
 import os
 
 from app import create_app
-from config import Config, RemoteDBConfig
 from app.misc.log import log
+from config import Config, RemoteDBConfig
 
 application = create_app(Config, RemoteDBConfig)
 

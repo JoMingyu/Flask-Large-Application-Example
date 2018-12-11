@@ -1,8 +1,8 @@
 import os
 
 from app import create_app
-from config import Config, LocalDBConfig
 from app.misc.log import log
+from config import Config, LocalDBConfig
 
 app = create_app(Config, LocalDBConfig)
 
