@@ -1,5 +1,4 @@
 from flask import Blueprint, Flask
-from flask_restful import Api
 
 
 def route(flask_app: Flask):
@@ -7,8 +6,6 @@ def route(flask_app: Flask):
 
     api_v1_blueprint = Blueprint('api_v1', __name__, url_prefix='/api/v1')
 
-    api_v1 = Api(api_v1_blueprint)
-
-    api_v1.add_resource(sample.Sample, '/sample')
+    api_v1_blueprint.add_url_rule('/sample', view_func=sample.Sample.as_view('sample'))
 
     flask_app.register_blueprint(api_v1_blueprint)
