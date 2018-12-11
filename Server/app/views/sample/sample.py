@@ -1,12 +1,12 @@
 from flasgger import swag_from
 from flask import request
+from flask_restful import Resource
 from flask_validation import validate_with_jsonschema
 
 from app.docs.sample import *
-from app.views import BaseResource
 
 
-class Sample(BaseResource):
+class Sample(Resource):
     @swag_from(SAMPLE_POST)
     @validate_with_jsonschema({
         'type': 'object',
@@ -22,7 +22,6 @@ class Sample(BaseResource):
         }
     })
     def post(self):
-        raise Exception
         payload = request.json
 
         return self.unicode_safe_json_dumps(payload, 201)
