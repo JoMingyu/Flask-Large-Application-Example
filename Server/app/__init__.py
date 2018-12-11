@@ -7,12 +7,9 @@ from app.misc.log import log
 def register_extensions(flask_app: Flask):
     from app import extensions
 
-    extensions.swagger.template = flask_app.config['SWAGGER_TEMPLATE']
-
     extensions.cors.init_app(flask_app)
     extensions.jwt.init_app(flask_app)
     extensions.validator.init_app(flask_app)
-    extensions.swagger.init_app(flask_app)
 
 
 def register_views(flask_app: Flask):

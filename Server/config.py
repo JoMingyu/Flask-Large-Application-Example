@@ -17,32 +17,6 @@ class Config:
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=365)
     JWT_HEADER_TYPE = 'JWT'
 
-    SWAGGER = {
-        'title': 'PlanA',
-        'specs_route': os.getenv('SWAGGER_URI', '/docs'),
-        'uiversion': 3,
-
-        'info': {
-            'title': 'PlanA API',
-            'version': '1.0',
-            'description': ''
-        },
-        'host': '', # TODO
-        'basePath': '/ '
-    }
-
-    SWAGGER_TEMPLATE = {
-        'schemes': [
-            'http'
-        ],
-        'tags': [
-            {
-                'name': 'Some Tag',
-                'description': 'Some API'
-            },
-        ]
-    }
-
 
 class LocalDBConfig:
     pass
