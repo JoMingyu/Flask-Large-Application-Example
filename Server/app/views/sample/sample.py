@@ -22,6 +22,7 @@ class Sample(BaseResource):
         }
     })
     def post(self):
+        raise Exception
         payload = request.json
 
         return self.unicode_safe_json_dumps(payload, 201)
