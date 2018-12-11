@@ -1,12 +1,12 @@
 from flasgger import swag_from
-from flask import jsonify, request
-from flask.views import MethodView
+from flask import request
+from flask_restful import Resource
 from flask_validation import validate_with_jsonschema
 
 from app.docs.sample import *
 
 
-class Sample(MethodView):
+class Sample(Resource):
     @swag_from(SAMPLE_POST)
     @validate_with_jsonschema({
         'type': 'object',
@@ -24,4 +24,4 @@ class Sample(MethodView):
     def post(self):
         payload = request.json
 
-        return jsonify(payload), 201
+        return self.unicode_safe_json_dumps(payload, 201)
