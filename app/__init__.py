@@ -26,12 +26,12 @@ def register_views(flask_app: Flask):
 
 
 def register_hooks(flask_app: Flask):
-    from app.hooks.error import broad_exception_error_handler, http_exception_handler
+    from app.hooks.error import broad_exception_handler, http_exception_handler
     from app.hooks.request_context import after_request
 
     flask_app.after_request(after_request)
     flask_app.register_error_handler(HTTPException, http_exception_handler)
-    flask_app.register_error_handler(Exception, broad_exception_error_handler)
+    flask_app.register_error_handler(Exception, broad_exception_handler)
 
 
 def create_app(*config_cls) -> Flask:
