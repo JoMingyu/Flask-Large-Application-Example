@@ -1,6 +1,7 @@
 from flask import request
 from flask_restful import Resource
-from flask_validation import validate_with_jsonschema
+
+from app.decorators.json_validator import validate_with_jsonschema
 
 
 class Sample(Resource):

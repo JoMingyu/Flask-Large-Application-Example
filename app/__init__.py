@@ -8,7 +8,6 @@ def register_extensions(flask_app: Flask):
     from app import extensions
 
     extensions.cors.init_app(flask_app)
-    extensions.validator.init_app(flask_app)
 
 
 def register_views(flask_app: Flask):
