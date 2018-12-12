@@ -1,6 +1,7 @@
 # Flask-Large-Application-Example 
 This is how I structure my large Flask applications.
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c4471f47671048e680fe98f1189c200e)](https://app.codacy.com/app/JoMingyu/Flask-Large-Application-Example?utm_source=github.com&utm_medium=referral&utm_content=JoMingyu/Flask-Large-Application-Example&utm_campaign=Badge_Grade_Settings)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/JoMingyu/Flask-Large-Application-Example/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/JoMingyu/Flask-Large-Application-Example/?branch=master)
 
 ## About
