@@ -1,7 +1,7 @@
 # Flask-Large-Application-Example 
 This is how I structure my large Flask applications.
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/JoMingyu/Flask-Large-Application-Example/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/JoMingyu/Flask-Large-Application-Example/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/JoMingyu/Flask-Large-Application-Example/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/JoMingyu/Flask-Large-Application-Example/?branch=master) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/5df22321aa484650abb918f7a512274a)](https://www.codacy.com/app/JoMingyu/Flask-Large-Application-Example?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JoMingyu/Flask-Large-Application-Example&amp;utm_campaign=Badge_Grade)
 
 ## About
 마이크로 웹 프레임워크인 Flask는 항상 개발자에게 구조에 대한 고민을 하게 만듭니다. 이 저장소는 제가 Flask를 배우기 시작했던 고등학교 1학년 때부터 지금까지의 시간동안 Flask 어플리케이션의 구조에 대해 고민한 흔적입니다.
