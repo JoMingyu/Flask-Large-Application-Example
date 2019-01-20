@@ -12,7 +12,7 @@ This is how I structure my large Flask applications.
 ### application factory가 필요하다.([app/\__init\__.py](app/__init__.py))
 local에서 실행해보는 용도, 테스트 클라이언트를 얻는 용도, 배포 단에서 사용하는 용도 등으로 app 객체가 필요한데, 그들은 모두 extension 초기화 - view들 라우팅 - hook 달아주는 것은 똑같고, 단지 주입되는 config가 다른 것밖에 차이가 없다. create_app에서 config class들을 받도록 했다.
 
-### extension들은 lazy하게 초기화한다.([app/\__init\__.py의 register_extension](app/__init__.py), [app/extensions.py](app/extensions.py))
+### extension들은 lazy하게 초기화한다.([app/\__init\__.py의 register_extensions](app/__init__.py#L7-L10), [app/extensions.py](app/extensions.py))
 어떤 config를 주입할지는 create_app 함수가 호출된 후 정해지므로, config에 의해 초기화가 진행되는 extension들은 lazy하게 초기화하도록 했다. 
 
 ### config를 따로 패키지화해서, 선택지를 두어 관리한다.([config/](config))
