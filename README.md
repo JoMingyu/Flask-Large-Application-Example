@@ -16,9 +16,9 @@ local에서 실행해보는 용도, 테스트 클라이언트를 얻는 용도, 
 어떤 config를 주입할지는 create_app 함수가 호출된 후 정해지므로, config에 의해 초기화가 진행되는 extension들은 lazy하게 초기화하도록 했다. 
 
 ### config를 따로 패키지화해서, 선택지를 두어 관리한다.([config/](config))
- 1. Flask에서 config는 class로 다루는 게 가장 좋다고 생각한다.
- 2. Config는 정적이어야 한다. Config class 내에서 if절이 있는 형태는 좋지 않다고 생각한다. 환경 변수에 따라 서로 다른 config를 주입해야 한다면, 각각에 맞게 class를 나누어 준비한 후 create_app을 호출하는 단에서 config를 상황에 맞게 전달하도록 만드는 게 좋다고 생각했다. 
- 3. 선택지마다 모듈을 만들어 두었다. 예를 들어, Local DB를 바라보도록 하는 config/Remote DB를 바라보도록 하는 config를 db_config라는 모듈에 LocalDBConfig, RemoteDBConfig 클래스로 준비한다.
+1. Flask에서 config는 class로 다루는 게 가장 좋다고 생각한다.
+2. Config는 정적이어야 한다. Config class 내에서 if절이 있는 형태는 좋지 않다고 생각한다. 환경 변수에 따라 서로 다른 config를 주입해야 한다면, 각각에 맞게 class를 나누어 준비한 후 create_app을 호출하는 단에서 config를 상황에 맞게 전달하도록 만드는 게 좋다고 생각했다. 
+3. 선택지마다 모듈을 만들어 두었다. 예를 들어, Local DB를 바라보도록 하는 config/Remote DB를 바라보도록 하는 config를 db_config라는 모듈에 LocalDBConfig, RemoteDBConfig 클래스로 준비한다.
 
 ### 상수 config는 따로 관리되어야 한다.([constants/](constants))
 DRY한 코드를 작성하기 위해 리터럴을 지양해야 한다. 게시글 목록 API에서 반환해주는 게시글 기본 갯수나, 특정 API의 사용 가능 시간같은 것들을 예로 들 수 있다. 이런 상수 config들은 따로 관리해야 하는 것은 맞지만, 굳이 app 객체에 주입할 필요가 없다. 따로 모듈만 만들어 두면 됨.
@@ -34,8 +34,8 @@ request, g 처럼 contenxt-dependent한 객체는 attribute가 dynamic하기 때
 ### view function이 호출되기 전의 전처리는 view decorator가 하는 것이 맞다.([app/decorators/](app/decorators))
 
 ### 기타 - 여기엔 없지만..
-  - ORM class들은 [app/models/](app/models) 하위에 모듈 단위로 적절히 분산하여 만들어 둔다.
-  - ORM class를 정의하기 위한 Base Model은 꽤 쓸모있다. 아래와 같은 것들을 정의해 두면 좋음.
+- ORM class들은 [app/models/](app/models) 하위에 모듈 단위로 적절히 분산하여 만들어 둔다.
+- ORM class를 정의하기 위한 Base Model은 꽤 쓸모있다. 아래와 같은 것들을 정의해 두면 좋음.
     - `get_one_or_abort(cls, session, *expressions, code=404)`
     - `get_all(cls, session, *expressions)`
     - `exist(cls, session, *expressions)`
