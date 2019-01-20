@@ -17,7 +17,7 @@ class Sample(BaseResource):
                 'type': 'string'
             }
         }
-    })
+    }, strict=True)
     def post(self):
         payload = request.json
 

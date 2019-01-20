@@ -4,7 +4,7 @@ from flask import abort, request
 from jsonschema import ValidationError, validate
 
 
-def validate_with_jsonschema(jsonschema: dict):
+def validate_with_jsonschema(jsonschema: dict, *, strict):
     def decorator(fn):
         @wraps(fn)
         def wrapper(*args, **kwargs):
@@ -13,6 +13,9 @@ def validate_with_jsonschema(jsonschema: dict):
                     validate(request.json, jsonschema)
                 except ValidationError:
                     abort(400)
+            else:
+                if strict:
+                    abort(406)
 
             return fn(*args, **kwargs)
         return wrapper
