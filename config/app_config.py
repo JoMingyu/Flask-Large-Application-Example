@@ -6,7 +6,4 @@ class LocalLevelConfig:
 
 
 class ProductionLevelConfig:
-    if 'SECRET_KEY' not in os.environ:
-        raise AssertionError('The secret key must be passed by the <SECRET_KEY> envvar.')
-
-    SECRET_KEY = os.environ['SECRET_KEY']
+    SECRET_KEY = os.getenv('SECRET_KEY')
