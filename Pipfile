@@ -9,6 +9,8 @@ Flask-Cors = "==3.0.4"
 Flask-RESTful = "==0.3.6"
 Werkzeug = "==0.14.1"
 jsonschema = "*"
+arrow = "*"
+termcolor = "*"
 
 [dev-packages]
 
