@@ -1,14 +1,9 @@
-import os
-
 from app import create_app
-from app.misc.log import log
-from config import Config, LocalDBConfig
+from config.app_config import LocalLevelConfig
+from config.db_config import LocalDBConfig
+from constants.local_run import RUN_SETTING
 
-app = create_app(Config, LocalDBConfig)
+app = create_app(LocalLevelConfig, LocalDBConfig)
 
 if __name__ == '__main__':
-    if 'SECRET_KEY' not in os.environ:
-        log(message='SECRET KEY is not set in the environment variable.',
-            keyword='WARN')
-
-    app.run(**app.config['RUN_SETTING'])
+    app.run(**RUN_SETTING)
