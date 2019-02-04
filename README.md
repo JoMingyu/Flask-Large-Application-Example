@@ -9,25 +9,25 @@ This is how I structure my large Flask applications.
 구조가 막 빡세다고 좋아지는 건 아닌 것 같아서, 조금 편하려고 복잡도를 높여버리는 모습은 지양했습니다. 이 레포의 '최신 버전'은 항상 제 기준에선 가장 편한 구조인데, 모두에게 그렇지도 않고 저도 자주 마음이 바뀝니다. 별거 아닌 코드에 커밋이 백단위인 게 이런 이유니까, 그냥 이거 가져가서 본인한테 맞게 커스텀하시면 좋을 것 같습니당 ㅎㅎ
 
 ## 컨셉
-### application factory가 필요하다.([app/\__init\__.py](app/__init__.py))
-local에서 실행해보는 용도, 테스트 클라이언트를 얻는 용도, 배포 단에서 사용하는 용도 등으로 app 객체가 필요한데, 그들은 모두 extension 초기화 - view들 라우팅 - hook 달아주는 것은 똑같고, 단지 주입되는 config가 다른 것밖에 차이가 없다. create_app에서 config class들을 받도록 했다.
+### application factory가 필요하다.([app/\_\_init\_\_.py](app/__init__.py))
+local에서 실행해보는 용도, 테스트 클라이언트를 얻는 용도, 배포 단에서 사용하는 용도 등으로 app 객체가 필요한데, 그들은 모두 extension 초기화 - view들 라우팅 - hook 달아주는 것은 똑같고, 단지 주입되는 config가 다른 것밖에 차이가 없습니다. create_app에서 config class들을 받도록 했습니다.
 
-### extension들은 lazy하게 초기화한다.([app/extensions.py](app/extensions.py), [app/\__init\__.py의 register_extensions](app/__init__.py#L7-L10))
-어떤 config를 주입할지는 create_app 함수가 호출된 후 정해지므로, config에 의해 초기화가 진행되는 extension들은 lazy하게 초기화하도록 했다. 
+### extension들은 lazy하게 초기화한다.([app/extensions.py](app/extensions.py), [app/\_\_init\_\_.py의 register_extensions](app/__init__.py#L7-L10))
+어떤 config를 주입할지는 create_app 함수가 호출된 후 정해지므로, config에 의해 초기화가 진행되는 extension들은 lazy하게 초기화하도록 했습니다. 
 
 ### config를 따로 패키지화해서, 선택지를 두어 관리한다.([config/](config))
-1. Flask에서 config는 class로 다루는 게 가장 좋다고 생각한다.
-2. Config는 정적이어야 한다. Config class 내에서 if절이 있는 형태는 좋지 않다고 생각한다. 환경 변수에 따라 서로 다른 config를 주입해야 한다면, 각각에 맞게 class를 나누어 준비한 후 create_app을 호출하는 단에서 config를 상황에 맞게 전달하도록 만드는 게 좋다고 생각했다. 
-3. 선택지마다 모듈을 만들어 두었다. 예를 들어, Local DB를 바라보도록 하는 config/Remote DB를 바라보도록 하는 config를 db_config라는 모듈에 LocalDBConfig, RemoteDBConfig 클래스로 준비한다.
+1. Flask에서 config는 class로 다루는 게 가장 좋다고 생각합니다.
+2. Config는 정적이어야 합니다. Config class 내에서 if절이 있는 형태는 좋지 않다고 생각합니다. 환경 변수에 따라 서로 다른 config를 주입해야 한다면, 각각에 맞게 class를 나누어 준비한 후 create_app을 호출하는 단에서 config를 상황에 맞게 전달하도록 만드는 게 좋다고 봅니다. 
+3. 선택지마다 모듈을 만들어 두었습니다. 예를 들어, Local DB를 바라보도록 하는 config/Remote DB를 바라보도록 하는 config를 db_config라는 모듈에 LocalDBConfig, RemoteDBConfig 클래스로 준비한다.
 
 ### 상수 config는 따로 관리되어야 한다.([constants/](constants))
-DRY한 코드를 작성하기 위해 리터럴을 지양해야 한다. 게시글 목록 API에서 반환해주는 게시글 기본 갯수나, 특정 API의 사용 가능 시간같은 것들을 예로 들 수 있다. 이런 상수 config들은 따로 관리해야 하는 것은 맞지만, 굳이 app 객체에 주입할 필요가 없다. 따로 모듈만 만들어 두면 됨.
+DRY한 코드를 작성하기 위해 리터럴을 지양해야 합니다. 게시글 목록 API에서 반환해주는 게시글 기본 갯수나, 특정 API의 사용 가능 시간같은 것들을 예로 들 수 있습니다. 이런 상수 config들은 따로 관리해야 하는 것은 맞지만, 굳이 app 객체에 주입할 필요가 없습니다. 따로 모듈만 만들어 두면 됨.
 
 ### blueprint와 flask_restful이 필요하다.([app/views/\__init\__.py](app/views/__init__.py))
-다른 복잡한 이유가 아니라, 더 구조적인 라우팅을 위해 blueprint의 url prefix, [flask_restful의 MethodView 확장](app/views/sample/sample.py)이 도움을 주기 때문이다.
+다른 복잡한 이유가 아니라, 더 구조적인 라우팅을 위해 blueprint의 url prefix, [flask_restful의 MethodView 확장](app/views/sample/sample.py)이 도움을 주기 때문입니다.
 
 ### context-dependent한 데이터는 따로 property class화 시킨다.([app/context.py](app/context.py))
-request, g 처럼 contenxt-dependent한 객체는 attribute가 dynamic하기 때문에, known attribute를 가지는 객체를 만들어 중계해주는 게 좋다. 휴먼 에러 예방에 도움 됨.
+request, g 처럼 contenxt-dependent한 객체는 attribute가 dynamic하기 때문에, known attribute를 가지는 객체를 만들어 중계해주는 게 좋습니다. 휴먼 에러 예방에 도움이 되더라구요.
 
 ### API Resource에는 Base가 필요하며, 시간 데이터를 주고받을 땐 ISO 8601 format으로 관리한다.([app/views/base.py](app/views/base.py))
 ### request context를 hook하는 친구들은 hook 패키지에 따로 관리한다.([app/hooks/](app/hooks))
@@ -35,7 +35,7 @@ request, g 처럼 contenxt-dependent한 객체는 attribute가 dynamic하기 때
 
 ### 기타 - 여기엔 없지만..
 - ORM class들은 [app/models/](app/models) 하위에 모듈 단위로 적절히 분산하여 만들어 둔다.
-- ORM class를 정의하기 위한 Base Model은 꽤 쓸모있다. 아래와 같은 것들을 정의해 두면 좋음.
+- ORM class를 정의하기 위한 Base Model은 꽤 쓸모있습니다. 아래와 같은 것들을 정의해 두면 좋음.
     - `get_one_or_abort(cls, session, *expressions, code=404)`
     - `get_all(cls, session, *expressions)`
     - `exist(cls, session, *expressions)`
