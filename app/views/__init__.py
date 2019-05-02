@@ -3,7 +3,7 @@ from flask_restful import Api
 
 
 def route(flask_app: Flask):
-    from app.views.sample import sample
+    from app.views.sample.api import SampleAPI
 
     handle_exception_func = flask_app.handle_exception
     handle_user_exception_func = flask_app.handle_user_exception
@@ -16,7 +16,7 @@ def route(flask_app: Flask):
     api_v1 = Api(api_v1_blueprint)
 
     # - route
-    api_v1.add_resource(sample.Sample, '/sample')
+    api_v1.add_resource(SampleAPI, '/sample')
 
     # - register blueprint
     flask_app.register_blueprint(api_v1_blueprint)

@@ -8,9 +8,9 @@ Flask = "==1.0.2"
 Flask-Cors = "==3.0.4"
 Flask-RESTful = "==0.3.6"
 Werkzeug = "==0.14.1"
-jsonschema = "*"
 arrow = "*"
 termcolor = "*"
+pydantic = "*"
 
 [dev-packages]
 
