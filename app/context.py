@@ -1,34 +1,43 @@
 from typing import Optional, Type
 
-from flask import current_app, request, g
+from flask import current_app, g, request
 from pydantic import BaseModel
 
 
+class _ContextLocalData:
+    def __init__(self, proxy_object, key_name, default):
+        self.proxy_object = proxy_object
+        self.key_name = key_name
+        self.default = default
+
+    def get(self):
+        return getattr(g, self.key_name, self.default)
+
+    def set(self, value):
+        setattr(g, self.key_name, value)
+
+
 class _ContextProperty:
-    class Key:
-        request_payload = 'request_payload'
+    class ContextLocalData:
+        request_payload = _ContextLocalData(
+            request,
+            'request_payload',
+            None
+        )
 
     @property
     def secret_key(self) -> str:
         return current_app.secret_key
 
-    @property
-    def user_agent(self) -> str:
-        return request.headers['user_agent']
-
-    @property
-    def remote_addr(self) -> str:
-        return request.remote_addr
-
     # - request payload -
 
     @property
     def request_payload(self) -> Optional[BaseModel]:
-        return getattr(g, self.Key.request_payload, None)
+        return self.ContextLocalData.request_payload.get()
 
     @request_payload.setter
     def request_payload(self, value: Type[BaseModel]):
-        setattr(g, self.Key.request_payload, value)
+        self.ContextLocalData.request_payload.set(value)
 
 
 context_property = _ContextProperty()
