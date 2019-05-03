@@ -1,3 +1,5 @@
+from typing import Type
+
 from pydantic import BaseModel, ValidationError, constr
 
 from app.context import context_property
@@ -17,9 +19,9 @@ class TestValidateWithPydantic(BaseTestCase):
     def setUp(self):
         super(TestValidateWithPydantic, self).setUp()
 
-    def initialize_function_and_call(self, payload_location, schema=TestSchema):
+    def initialize_function_and_call(self, payload_location: PayloadLocation, schema: Type[BaseModel]=TestSchema):
         """
-        인자 정보를 통해 데코레이팅된 함수를 생성하고, 호출합니다.
+        인자 정보를 통해 `validate_with_pydantic`으로 데코레이팅된 함수를 생성하고, 호출합니다.
         """
 
         @validate_with_pydantic(payload_location, schema)
