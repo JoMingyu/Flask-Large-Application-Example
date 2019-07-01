@@ -19,11 +19,7 @@ class _ContextLocalData:
 
 class _ContextProperty:
     class ContextLocalData:
-        request_payload = _ContextLocalData(
-            request,
-            'request_payload',
-            None
-        )
+        request_payload = _ContextLocalData(request, "request_payload", None)
 
     @property
     def secret_key(self) -> str:

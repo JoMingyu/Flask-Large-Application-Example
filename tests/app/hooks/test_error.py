@@ -8,10 +8,10 @@ class TestError(BaseTestCase):
     def setUp(self):
         super(TestError, self).setUp()
 
-        self.path = '/foo'
+        self.path = "/foo"
 
     def add_route_raises_exception(self, exception_cls):
-        self.app.view_functions.pop('handler', None)
+        self.app.view_functions.pop("handler", None)
 
         @self.app.route(self.path)
         def handler():
@@ -29,9 +29,7 @@ class TestHTTPExceptionHandler(TestError):
             resp = self.request()
             self.assertEqual(exception_cls.code, resp.status_code)
             self.assertTrue(resp.is_json)
-            self.assertDictEqual({
-                'message': exception_cls.description
-            }, resp.json)
+            self.assertDictEqual({"message": exception_cls.description}, resp.json)
 
 
 class TestBroadExceptionHandler(TestError):
@@ -42,4 +40,4 @@ class TestBroadExceptionHandler(TestError):
 
         resp = self.request()
         self.assertEqual(500, resp.status_code)
-        self.assertEqual('', resp.data.decode())
+        self.assertEqual("", resp.data.decode())

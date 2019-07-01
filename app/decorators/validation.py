@@ -9,8 +9,8 @@ from app.context import context_property
 
 
 class PayloadLocation(Enum):
-    ARGS = 'args'
-    JSON = 'json'
+    ARGS = "args"
+    JSON = "json"
 
 
 def validate_with_pydantic(payload_location: PayloadLocation, model: Type[BaseModel]):
@@ -19,7 +19,7 @@ def validate_with_pydantic(payload_location: PayloadLocation, model: Type[BaseMo
         def wrapper(*args, **kwargs):
             payload = getattr(request, payload_location.value)
 
-            if payload_location == PayloadLocation.ARGS and hasattr(payload, 'to_dict'):
+            if payload_location == PayloadLocation.ARGS and hasattr(payload, "to_dict"):
                 payload = payload.to_dict()
 
             instance = model(**payload)
@@ -27,5 +27,7 @@ def validate_with_pydantic(payload_location: PayloadLocation, model: Type[BaseMo
             context_property.request_payload = instance
 
             return fn(*args, **kwargs)
+
         return wrapper
+
     return decorator

@@ -26,8 +26,12 @@ def register_hooks(flask_app: Flask):
 
 
 def create_app(*config_cls) -> Flask:
-    log(message='Flask application initialized with {}'.format(', '.join([config.__name__ for config in config_cls])),
-        keyword='INFO')
+    log(
+        message="Flask application initialized with {}".format(
+            ", ".join([config.__name__ for config in config_cls])
+        ),
+        keyword="INFO",
+    )
 
     flask_app = Flask(__name__)
 

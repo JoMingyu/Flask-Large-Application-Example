@@ -19,7 +19,9 @@ class TestValidateWithPydantic(BaseTestCase):
     def setUp(self):
         super(TestValidateWithPydantic, self).setUp()
 
-    def initialize_function_and_call(self, payload_location: PayloadLocation, schema: Type[BaseModel]=TestSchema):
+    def initialize_function_and_call(
+        self, payload_location: PayloadLocation, schema: Type[BaseModel] = TestSchema
+    ):
         """
         인자 정보를 통해 `validate_with_pydantic`으로 데코레이팅된 함수를 생성하고, 호출합니다.
         """
@@ -31,29 +33,33 @@ class TestValidateWithPydantic(BaseTestCase):
         handler()
 
     def test_validation_pass_with_payload_location_args(self):
-        with self.app.test_request_context(query_string={'foo': 'bar'}):
+        with self.app.test_request_context(query_string={"foo": "bar"}):
             self.initialize_function_and_call(PayloadLocation.ARGS)
 
     def test_validation_pass_with_payload_location_json(self):
-        with self.app.test_request_context(json={'foo': 'bar'}):
+        with self.app.test_request_context(json={"foo": "bar"}):
             self.initialize_function_and_call(PayloadLocation.JSON)
 
     def test_validation_error_with_payload_location_args(self):
-        with self.app.test_request_context(query_string={'foo': ''}):
+        with self.app.test_request_context(query_string={"foo": ""}):
             with self.assertRaises(ValidationError):
                 self.initialize_function_and_call(PayloadLocation.ARGS)
 
     def test_validation_error_with_payload_location_json(self):
-        with self.app.test_request_context(json={'foo': ''}):
+        with self.app.test_request_context(json={"foo": ""}):
             with self.assertRaises(ValidationError):
                 self.initialize_function_and_call(PayloadLocation.JSON)
 
     def test_context_property_binding_with_payload_location_args(self):
-        with self.app.test_request_context(query_string={'foo': 'bar'}):
+        with self.app.test_request_context(query_string={"foo": "bar"}):
             self.initialize_function_and_call(PayloadLocation.ARGS)
-            self.assertEqual(self.TestSchema(foo='bar'), context_property.request_payload)
+            self.assertEqual(
+                self.TestSchema(foo="bar"), context_property.request_payload
+            )
 
     def test_context_property_binding_with_payload_location_json(self):
-        with self.app.test_request_context(json={'foo': 'bar'}):
+        with self.app.test_request_context(json={"foo": "bar"}):
             self.initialize_function_and_call(PayloadLocation.JSON)
-            self.assertEqual(self.TestSchema(foo='bar'), context_property.request_payload)
+            self.assertEqual(
+                self.TestSchema(foo="bar"), context_property.request_payload
+            )

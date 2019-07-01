@@ -11,9 +11,7 @@ class TestContextLocalData(BaseTestCase):
         super(TestContextLocalData, self).setUp()
 
         self.test_context_local_data = _ContextLocalData(
-            self.proxy_object,
-            'test',
-            None
+            self.proxy_object, "test", None
         )
 
     @property

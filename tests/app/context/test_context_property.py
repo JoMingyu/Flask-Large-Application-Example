@@ -10,10 +10,7 @@ class TestContextProperty(BaseTestCase):
         """
 
         with self.app.test_request_context():
-            self.assertEqual(
-                LocalLevelConfig.SECRET_KEY,
-                context_property.secret_key
-            )
+            self.assertEqual(LocalLevelConfig.SECRET_KEY, context_property.secret_key)
 
     def test_secret_key_raise_runtime_error_on_outside_context(self):
         """

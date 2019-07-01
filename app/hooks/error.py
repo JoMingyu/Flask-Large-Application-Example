@@ -3,9 +3,7 @@ from werkzeug.exceptions import HTTPException
 
 
 def http_exception_handler(e: HTTPException):
-    return jsonify({
-        'message': e.description
-    }), e.code
+    return jsonify({"message": e.description}), e.code
 
 
 def broad_exception_handler(e: Exception):
@@ -13,6 +11,7 @@ def broad_exception_handler(e: Exception):
 
     if current_app.debug:
         import traceback
+
         traceback.print_exc()
 
-    return '', 500
+    return "", 500
