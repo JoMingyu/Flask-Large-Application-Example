@@ -19,7 +19,7 @@ def validate_with_pydantic(payload_location: PayloadLocation, model: Type[BaseMo
         def wrapper(*args, **kwargs):
             payload = getattr(request, payload_location.value)
 
-            if payload_location == PayloadLocation.ARGS:
+            if payload_location == PayloadLocation.ARGS and hasattr(payload, 'to_dict'):
                 payload = payload.to_dict()
 
             instance = model(**payload)
