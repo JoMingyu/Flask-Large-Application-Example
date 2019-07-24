@@ -8,6 +8,9 @@ class TestError(BaseTestCase):
     def setUp(self):
         super(TestError, self).setUp()
 
+        self.app.debug = False
+        # to prevent AssertionError: A setup function was called ...
+
         self.path = "/foo"
 
     def add_route_raises_exception(self, exception_cls):
@@ -21,15 +24,15 @@ class TestError(BaseTestCase):
 class TestHTTPExceptionHandler(TestError):
     def test(self):
         for exception_cls in HTTPException.__subclasses__():
-            if exception_cls is RequestRedirect or exception_cls.code == 412:
+            if exception_cls is RequestRedirect or exception_cls().code == 412:
                 continue
 
             self.add_route_raises_exception(exception_cls)
 
             resp = self.request()
-            self.assertEqual(exception_cls.code, resp.status_code)
+            self.assertEqual(exception_cls().code, resp.status_code)
             self.assertTrue(resp.is_json)
-            self.assertDictEqual({"message": exception_cls.description}, resp.json)
+            self.assertDictEqual({"message": exception_cls().description}, resp.json)
 
 
 class TestBroadExceptionHandler(TestError):

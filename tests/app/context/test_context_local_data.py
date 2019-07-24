@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from flask import g, request
+from flask import g
 
 from app.context import _ContextLocalData
 from tests import BaseTestCase
