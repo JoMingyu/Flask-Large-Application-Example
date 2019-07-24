@@ -10,9 +10,7 @@ class TestContextLocalData(BaseTestCase):
     def setUp(self):
         super(TestContextLocalData, self).setUp()
 
-        self.test_context_local_data = _ContextLocalData(
-            self.proxy_object, "test", None
-        )
+        self.test_context_local_data = _ContextLocalData("test", None)
 
     @property
     @abstractmethod
@@ -25,7 +23,7 @@ class TestContextLocalData(BaseTestCase):
         """
 
         with self.app.test_request_context():
-            self.test_context_local_data.set(0)
+            self.test_context_local_data.set(self.proxy_object, 0)
             self.assertEqual(0, self.proxy_object.test)
 
     def _test_set_outside_context(self):
@@ -34,7 +32,7 @@ class TestContextLocalData(BaseTestCase):
         """
 
         with self.assertRaises(RuntimeError):
-            self.test_context_local_data.set(0)
+            self.test_context_local_data.set(self.proxy_object, 0)
 
     def _test_get(self):
         """
@@ -43,7 +41,7 @@ class TestContextLocalData(BaseTestCase):
 
         with self.app.test_request_context():
             self.proxy_object.test = 0
-            self.assertEqual(0, self.test_context_local_data.get())
+            self.assertEqual(0, self.test_context_local_data.get(self.proxy_object))
 
     def _test_get_outside_context(self):
         """
@@ -51,7 +49,7 @@ class TestContextLocalData(BaseTestCase):
         """
 
         with self.assertRaises(RuntimeError):
-            _ = self.test_context_local_data.get()
+            _ = self.test_context_local_data.get(self.proxy_object)
 
     def _test_get_default_value(self):
         """
@@ -59,7 +57,7 @@ class TestContextLocalData(BaseTestCase):
         """
 
         with self.app.test_request_context():
-            self.assertEqual(None, self.test_context_local_data.get())
+            self.assertEqual(None, self.test_context_local_data.get(self.proxy_object))
 
 
 class TestContextLocalDataOnGObject(TestContextLocalData):
