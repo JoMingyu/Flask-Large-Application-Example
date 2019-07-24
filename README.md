@@ -29,7 +29,6 @@ DRY한 코드를 작성하기 위해 리터럴을 지양해야 합니다. 게시
 ### context-dependent한 데이터는 따로 property class화 시킨다.([app/context.py](app/context.py))
 request, g 처럼 contenxt-dependent한 객체는 attribute가 dynamic하기 때문에, known attribute를 가지는 객체를 만들어 중계해주는 게 좋습니다. 휴먼 에러 예방에 도움이 되더라구요.
 
-### API Resource에는 Base가 필요하며, 시간 데이터를 주고받을 땐 ISO 8601 format으로 관리한다.([app/views/base.py](app/views/base.py))
 ### request context를 hook하는 친구들은 hook 패키지에 따로 관리한다.([app/hooks/](app/hooks))
 ### view function이 호출되기 전의 전처리는 view decorator가 하는 것이 맞다.([app/decorators/](app/decorators))
 
