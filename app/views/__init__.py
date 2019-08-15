@@ -12,14 +12,14 @@ def route(flask_app: Flask):
     # 따라서 두 함수를 임시 저장해 두고, register_blueprint 이후 함수를 재할당하도록 함
 
     # - blueprint, api object initialize
-    api_v1_blueprint = Blueprint("api_v1", __name__, url_prefix="/api/v1")
-    api_v1 = Api(api_v1_blueprint)
+    api_blueprint = Blueprint("api", __name__)
+    api = Api(api_blueprint)
 
     # - route
-    api_v1.add_resource(SampleAPI, "/sample")
+    api.add_resource(SampleAPI, "/sample")
 
     # - register blueprint
-    flask_app.register_blueprint(api_v1_blueprint)
+    flask_app.register_blueprint(api_blueprint)
 
     flask_app.handle_exception = handle_exception_func
     flask_app.handle_user_exception = handle_user_exception_func
