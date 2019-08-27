@@ -37,17 +37,6 @@ request, g 처럼 contenxt-dependent한 객체는 attribute가 dynamic하기 때
 ### request context를 hook하는 친구들은 hook 패키지에 따로 관리한다.([app/hooks/](app/hooks))
 ### view function이 호출되기 전의 전처리는 view decorator가 하는 것이 맞다.([app/decorators/](app/decorators))
 
-### 기타 - 여기엔 없지만..
-- ORM class들은 [app/models/](app/models) 하위에 모듈 단위로 적절히 분산하여 만들어 둔다.
-- ORM class를 정의하기 위한 Base Model은 꽤 쓸모있습니다. 아래와 같은 것들을 정의해 두면 좋음.
-    - `get_one_or_abort(cls, session, *expressions, code=404)`
-    - `get_all(cls, session, *expressions)`
-    - `exist(cls, session, *expressions)`
-    - `delete(cls, session, *expressions)`
-    - `delete_instance(self, session)`
-    - `update(cls, session, *expressions, **values)`
-    - `update_instance(self, session, **values)`
-
 ## I Referred
 ### People
 <a href="https://github.com/JungWinter">정겨울님</a>
