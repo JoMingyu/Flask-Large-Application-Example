@@ -3,6 +3,11 @@
 
 This is how I structure my large Flask applications.
 
+```
+$ pip install cookiecutter
+$ cookiecutter https://github.com/JoMingyu/Flask-Large-Application-Example.git
+```
+
 ## About
 마이크로 웹 프레임워크인 Flask는 항상 개발자에게 구조에 대한 고민을 하게 만듭니다. 이 저장소는 제가 Flask를 배우기 시작했던 고등학교 1학년 때부터 지금까지의 시간동안 Flask 어플리케이션의 구조에 대해 고민한 흔적입니다. 근데 뭐 계속 개선하다 보니까 Flask에게만 특별히 적용할 수 있는 구조라기 보단 다른 웹 프레임워크들에서도 써먹을 수 있는 기반이 될 수도 있을 것 같네요.
 

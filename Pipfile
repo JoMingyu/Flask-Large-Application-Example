@@ -4,19 +4,9 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-black = "*"
+cookiecutter = "*"
 
 [packages]
-flask = "*"
-flask-cors = "*"
-flask-restful = "*"
-werkzeug = "*"
-arrow = "*"
-termcolor = "*"
-pydantic = "*"
 
 [requires]
 python_version = "3.7"
-
-[pipenv]
-allow_prereleases = true
