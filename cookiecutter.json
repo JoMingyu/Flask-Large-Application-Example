@@ -1,4 +1,5 @@
 {
   "project_name": "A Flask Application",
-  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}"
+  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "python_version": ["3.8", "3.7", "3.6"]
 }
