@@ -1,3 +1,4 @@
 {
+  "project_name": "A Flask Application",
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}"
 }
