@@ -4,7 +4,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-black = "*"
+{% if cookiecutter.use_black == 'y' -%}
+black = "*"{% endif %}
+{% if cookiecutter.use_pytest == 'y' -%}
+pytest = "*"
+pytest-runner = "*"{% endif %}
 
 [packages]
 flask = "*"
