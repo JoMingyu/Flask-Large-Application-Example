@@ -8,6 +8,8 @@ from app.views.sample.schema import Post
 class SampleAPI(Resource):
     @validate_with_pydantic(PayloadLocation.JSON, Post)
     def post(self):
-        payload = context_property.request_payload
+        payload: Post = context_property.request_payload
 
-        return payload.dict(), 201
+        return {
+            'msg': f'hello {payload.name}'
+        }, 201
