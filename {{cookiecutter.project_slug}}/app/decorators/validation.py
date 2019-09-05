@@ -1,9 +1,8 @@
 from enum import Enum
 from functools import wraps
-from typing import Type
 
+from dacite import from_dict
 from flask import request
-from pydantic import BaseModel
 
 from app.context import context_property
 
@@ -13,7 +12,7 @@ class PayloadLocation(Enum):
     JSON = "json"
 
 
-def validate_with_pydantic(payload_location: PayloadLocation, model: Type[BaseModel]):
+def validate_with_pydantic(payload_location: PayloadLocation, model):
     def decorator(fn):
         @wraps(fn)
         def wrapper(*args, **kwargs):
@@ -22,7 +21,7 @@ def validate_with_pydantic(payload_location: PayloadLocation, model: Type[BaseMo
             if payload_location == PayloadLocation.ARGS and hasattr(payload, "to_dict"):
                 payload = payload.to_dict()
 
-            instance = model(**payload)
+            instance = from_dict(data_class=model, data=payload)
 
             context_property.request_payload = instance
 

@@ -18,6 +18,7 @@ werkzeug = "*"
 arrow = "*"
 termcolor = "*"
 pydantic = "*"
+dacite = "*"
 
 [requires]
 python_version = "{{ cookiecutter.python_version }}"
