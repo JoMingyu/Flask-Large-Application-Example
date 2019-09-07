@@ -1,7 +1,6 @@
 from enum import Enum
 from functools import wraps
 
-from dacite import from_dict, Config
 from flask import request
 
 from app.context import context_property
@@ -21,7 +20,7 @@ def validate_with_pydantic(payload_location: PayloadLocation, model):
             if payload_location == PayloadLocation.ARGS and hasattr(payload, "to_dict"):
                 payload = payload.to_dict()
 
-            instance = from_dict(data_class=model, data=payload, config=Config(check_types=False))
+            instance = model(**payload)
 
             context_property.request_payload = instance
 
