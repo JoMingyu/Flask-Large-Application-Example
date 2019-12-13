@@ -15,7 +15,6 @@ flask = "*"
 flask-cors = "*"
 flask-restful = "*"
 werkzeug = "*"
-arrow = "*"
 termcolor = "*"
 pydantic = "*"
 
