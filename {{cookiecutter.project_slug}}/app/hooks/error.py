@@ -1,23 +1,28 @@
+from http import HTTPStatus
+
 from flask import current_app, jsonify
 from pydantic import ValidationError
 from werkzeug.exceptions import HTTPException
 
 
-def http_exception_handler(e: HTTPException):
-    return jsonify({"message": e.description}), e.code
-
-
 def broad_exception_handler(e: Exception):
     # TODO 에러를 세분화해서 잡는 것을 추천합니다.
 
-    if isinstance(e, ValidationError):
-        return jsonify({
-            'errors': e.errors()
-        }), 400
+    if isinstance(e, HTTPException):
+        message = e.description
+        code = e.code
 
-    if current_app.debug:
-        import traceback
+    elif isinstance(e, ValidationError):
+        message = e.errors()
+        code = HTTPStatus.BAD_REQUEST
 
-        traceback.print_exc()
+    else:
+        message = ""
+        code = HTTPStatus.INTERNAL_SERVER_ERROR
 
-    return "", 500
+        if current_app.debug:
+            import traceback
+
+            traceback.print_exc()
+
+    return jsonify({"error": message}), code
