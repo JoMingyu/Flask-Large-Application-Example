@@ -29,10 +29,10 @@ def create_app(*config_cls) -> Flask:
     config_cls = [
         config() if isinstance(config, type) else config for config in config_cls
     ]
-    
+
     log(
         message="Flask application initialized with {}".format(
-            ", ".join([config.__name__ for config in config_cls])
+            ", ".join([config.__class__.__name__ for config in config_cls])
         ),
         keyword="INFO",
     )
