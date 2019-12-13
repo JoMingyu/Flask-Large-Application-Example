@@ -1,3 +1,4 @@
+import json
 from typing import Type
 
 from pydantic import BaseModel, ValidationError, constr
@@ -20,13 +21,20 @@ class TestValidateWithPydantic(BaseTestCase):
         super(TestValidateWithPydantic, self).setUp()
 
     def initialize_function_and_call(
-        self, payload_location: PayloadLocation, schema: Type[BaseModel] = TestSchema
+        self,
+        payload_location: PayloadLocation,
+        schema: Type[BaseModel] = TestSchema,
+        json_force_load: bool = False,
     ):
         """
         인자 정보를 통해 `validate_with_pydantic`으로 데코레이팅된 함수를 생성하고, 호출합니다.
         """
 
-        @validate_with_pydantic(payload_location, schema)
+        @validate_with_pydantic(
+            payload_location=payload_location,
+            model=schema,
+            json_force_load=json_force_load,
+        )
         def handler():
             pass
 
@@ -60,6 +68,15 @@ class TestValidateWithPydantic(BaseTestCase):
     def test_context_property_binding_with_payload_location_json(self):
         with self.app.test_request_context(json={"foo": "bar"}):
             self.initialize_function_and_call(PayloadLocation.JSON)
+            self.assertEqual(
+                self.TestSchema(foo="bar"), context_property.request_payload
+            )
+
+    def test_json_force_load(self):
+        with self.app.test_request_context(data=json.dumps({"foo": "bar"})):
+            self.initialize_function_and_call(
+                PayloadLocation.JSON, json_force_load=True
+            )
             self.assertEqual(
                 self.TestSchema(foo="bar"), context_property.request_payload
             )

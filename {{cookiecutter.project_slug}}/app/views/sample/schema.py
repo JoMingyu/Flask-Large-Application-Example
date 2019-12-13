@@ -1,8 +1,6 @@
-from pydantic import conint
-from pydantic.dataclasses import dataclass
+from pydantic import conint, BaseModel
 
 
-@dataclass
-class Post:
+class Post(BaseModel):
     age: conint(gt=0)
     name: str
