@@ -1,3 +1,4 @@
+import json
 from http import HTTPStatus
 
 from flask import current_app, jsonify
@@ -13,7 +14,7 @@ def broad_exception_handler(e: Exception):
         code = e.code
 
     elif isinstance(e, ValidationError):
-        message = e.errors()
+        message = json.loads(e.json())
         code = HTTPStatus.BAD_REQUEST
 
     else:

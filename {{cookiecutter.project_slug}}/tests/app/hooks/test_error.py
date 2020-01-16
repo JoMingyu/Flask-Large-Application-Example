@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from enum import Enum
 from typing import Union, Callable, Type
 
 from flask import Flask
@@ -90,6 +91,39 @@ class TestBroadExceptionHandler(TestError):
                         "msg": "value could not be parsed to a boolean",
                         "type": "type_error.bool",
                     },
+                ]
+            },
+            resp.json,
+        )
+
+    def test_pydantic_validation_error_with_enum(self):
+        class Example(BaseModel):
+            class Choices(Enum):
+                A = 1
+                B = 2
+                C = 3
+
+            c: Choices
+
+        try:
+            Example(c=4)
+        except ValidationError as e:
+            self.add_route_raises_exception(
+                ExceptionHandlingSpec(Exception, broad_exception_handler, e,)
+            )
+
+        resp = self.request()
+
+        self.assertEqual(400, resp.status_code)
+        self.assertDictEqual(
+            {
+                "error": [
+                    {
+                        "ctx": {"enum_values": [1, 2, 3]},
+                        "loc": ["c"],
+                        "msg": "value is not a valid enumeration member; permitted: 1, 2, 3",
+                        "type": "type_error.enum",
+                    }
                 ]
             },
             resp.json,
