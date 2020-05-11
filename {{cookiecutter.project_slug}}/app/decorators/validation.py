@@ -33,7 +33,10 @@ def validate_with_pydantic(
                 if hasattr(payload, "to_dict"):
                     payload = payload.to_dict()
 
-            instance = model(**payload)
+            try:
+                instance = model(**payload)
+            except:
+                instance = None
 
             context_property.request_payload = instance
 
