@@ -3,7 +3,7 @@ from functools import wraps
 from typing import Type
 
 from flask import request
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 from app.context import context_property
 
@@ -35,6 +35,8 @@ def validate_with_pydantic(
 
             try:
                 instance = model(**payload)
+            except ValidationError:
+                raise
             except:
                 instance = None
 

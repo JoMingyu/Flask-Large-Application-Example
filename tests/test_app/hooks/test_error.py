@@ -5,7 +5,7 @@ from typing import Union, Callable, Type
 from flask import Flask
 from pydantic import ValidationError, NoneIsNotAllowedError, BoolError, BaseModel
 from pydantic.error_wrappers import ErrorWrapper
-from werkzeug.exceptions import HTTPException
+from werkzeug.exceptions import HTTPException, _RetryAfter, PreconditionFailed
 from werkzeug.routing import RequestRedirect
 
 from app.hooks.error import broad_exception_handler
@@ -43,7 +43,7 @@ class TestError(BaseTestCase):
 class TestBroadExceptionHandler(TestError):
     def test_http_exception(self):
         for exception_cls in HTTPException.__subclasses__():
-            if exception_cls is RequestRedirect or exception_cls().code == 412:
+            if exception_cls in (RequestRedirect, PreconditionFailed, _RetryAfter):
                 continue
 
             exception_instance = exception_cls()

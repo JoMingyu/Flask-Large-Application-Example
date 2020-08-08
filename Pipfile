@@ -4,15 +4,16 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-cookiecutter = "*"
+black = "*"
+nose = "*"
+
+[packages]
 flask = "*"
 flask-cors = "*"
 flask-restful = "*"
+werkzeug = "*"
 termcolor = "*"
 pydantic = "*"
-black = "*"
-
-[packages]
 
 [requires]
 python_version = "3.7"

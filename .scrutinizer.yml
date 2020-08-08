@@ -5,5 +5,5 @@ checks:
 
 filter:
     excluded_paths:
-        - "Server/app/static/*"
-        - "Server/app/templates/*"
+        - "Server/test_app/static/*"
+        - "Server/test_app/templates/*"

@@ -50,7 +50,7 @@ class TestValidateWithPydantic(BaseTestCase):
 
     def test_validation_error_with_payload_location_args(self):
         with self.app.test_request_context(query_string={"foo": ""}):
-            with self.assertRaises(ValidationError):
+            with self.assertRaises(ValidationError) as e:
                 self.initialize_function_and_call(PayloadLocation.ARGS)
 
     def test_validation_error_with_payload_location_json(self):
@@ -74,6 +74,12 @@ class TestValidateWithPydantic(BaseTestCase):
 
     def test_json_force_load(self):
         with self.app.test_request_context(data=json.dumps({"foo": "bar"})):
+            # TODO
+            # self.initialize_function_and_call(
+            #     PayloadLocation.JSON, json_force_load=False
+            # )
+            # print(context_property.request_payload)
+
             self.initialize_function_and_call(
                 PayloadLocation.JSON, json_force_load=True
             )
