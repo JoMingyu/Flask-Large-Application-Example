@@ -37,18 +37,18 @@ request, g 처럼 contenxt-dependent한 객체는 attribute가 dynamic하기 때
 <a href="https://github.com/JungWinter">정겨울님</a>
 
 ### Repository
-https://github.com/imwilsonxu/fbone
-https://github.com/cookiecutter-flask/cookiecutter-flask
-https://github.com/JackStouffer/Flask-Foundation
-https://github.com/alexandre-old/flask-rest-template
-https://github.com/dpgaspar/Flask-AppBuilder
-https://github.com/hack4impact/flask-base
-https://github.com/gothinkster/flask-realworld-example-app
-https://github.com/alexandre-old/flask-rest-template
-https://github.com/JoMingyu/Flask-Large-Application-Example
-https://github.com/yoshiya0503/Hermetica
-https://github.com/realpython/cookiecutter-flask-skeleton
-https://github.com/swaroopch/flask-boilerplate
+- https://github.com/imwilsonxu/fbone
+- https://github.com/cookiecutter-flask/cookiecutter-flask
+- https://github.com/JackStouffer/Flask-Foundation
+- https://github.com/alexandre-old/flask-rest-template
+- https://github.com/dpgaspar/Flask-AppBuilder
+- https://github.com/hack4impact/flask-base
+- https://github.com/gothinkster/flask-realworld-example-app
+- https://github.com/alexandre-old/flask-rest-template
+- https://github.com/JoMingyu/Flask-Large-Application-Example
+- https://github.com/yoshiya0503/Hermetica
+- https://github.com/realpython/cookiecutter-flask-skeleton
+- https://github.com/swaroopch/flask-boilerplate
 
 ### Website
 <a href="https://exploreflask.com/en/latest/">Explore Flask - Explore Flask 1.0 documentation</a>  
