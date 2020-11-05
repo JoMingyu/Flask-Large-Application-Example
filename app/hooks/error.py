@@ -7,6 +7,12 @@ from werkzeug.exceptions import HTTPException
 
 
 def broad_exception_handler(e: Exception):
+    """
+    Broadcasts an exception to json.
+
+    Args:
+        e: (todo): write your description
+    """
     # TODO 에러를 세분화해서 잡는 것을 추천합니다.
 
     if isinstance(e, HTTPException):

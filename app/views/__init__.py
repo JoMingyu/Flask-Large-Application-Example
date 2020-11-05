@@ -3,6 +3,12 @@ from flask_restful import Api
 
 
 def route(flask_app: Flask):
+    """
+    Flask application route.
+
+    Args:
+        flask_app: (todo): write your description
+    """
     from app.views.sample.api import SampleAPI
 
     handle_exception_func = flask_app.handle_exception

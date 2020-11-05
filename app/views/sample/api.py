@@ -12,6 +12,12 @@ class SampleAPI(Resource):
         payload_location=PayloadLocation.JSON, model=Post, json_force_load=True
     )
     def post(self):
+        """
+        A post request.
+
+        Args:
+            self: (todo): write your description
+        """
         payload: Post = context_property.request_payload
 
         return {"msg": f"hello {payload.name}"}, HTTPStatus.CREATED

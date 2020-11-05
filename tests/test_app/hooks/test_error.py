@@ -21,6 +21,12 @@ class ExceptionHandlingSpec:
 
 class TestError(BaseTestCase):
     def setUp(self):
+        """
+        Sets the success.
+
+        Args:
+            self: (todo): write your description
+        """
         super(TestError, self).setUp()
 
         self.path = "/foo"
@@ -28,6 +34,13 @@ class TestError(BaseTestCase):
     def add_route_raises_exception(
         self, exception_handling_spec: ExceptionHandlingSpec
     ):
+        """
+        Registers a flask application handler.
+
+        Args:
+            self: (todo): write your description
+            exception_handling_spec: (todo): write your description
+        """
         self.app = Flask(__name__)
         self.app.register_error_handler(
             exception_handling_spec.error_handler_exception_or_code,
@@ -37,11 +50,22 @@ class TestError(BaseTestCase):
 
         @self.app.route(self.path)
         def handler():
+            """
+            Hook for the handler handler.
+
+            Args:
+            """
             raise exception_handling_spec.exception_instance_to_handler_raises
 
 
 class TestBroadExceptionHandler(TestError):
     def test_http_exception(self):
+        """
+        Return a http exceptions.
+
+        Args:
+            self: (todo): write your description
+        """
         for exception_cls in HTTPException.__subclasses__():
             if exception_cls in (RequestRedirect, PreconditionFailed, _RetryAfter):
                 continue
@@ -61,6 +85,12 @@ class TestBroadExceptionHandler(TestError):
             self.assertDictEqual({"error": exception_instance.description}, resp.json)
 
     def test_pydantic_validation_error(self):
+        """
+        This method for validation validation.
+
+        Args:
+            self: (todo): write your description
+        """
         self.add_route_raises_exception(
             ExceptionHandlingSpec(
                 Exception,
@@ -97,6 +127,12 @@ class TestBroadExceptionHandler(TestError):
         )
 
     def test_pydantic_validation_error_with_enum(self):
+        """
+        Test if the validation validation errors.
+
+        Args:
+            self: (todo): write your description
+        """
         class Example(BaseModel):
             class Choices(Enum):
                 A = 1
@@ -130,6 +166,12 @@ class TestBroadExceptionHandler(TestError):
         )
 
     def test_500(self):
+        """
+        This method is called when an exception is raised.
+
+        Args:
+            self: (todo): write your description
+        """
         self.add_route_raises_exception(
             ExceptionHandlingSpec(Exception, broad_exception_handler, KeyError())
         )
