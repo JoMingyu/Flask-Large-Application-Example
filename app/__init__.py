@@ -5,18 +5,36 @@ from app.misc.log import log
 
 
 def register_extensions(flask_app: Flask):
+    """
+    Registers the extension.
+
+    Args:
+        flask_app: (todo): write your description
+    """
     from app import extensions
 
     extensions.cors.init_app(flask_app)
 
 
 def register_views(flask_app: Flask):
+    """
+    Register a flask app views.
+
+    Args:
+        flask_app: (todo): write your description
+    """
     from app.views import route
 
     route(flask_app)
 
 
 def register_hooks(flask_app: Flask):
+    """
+    Register the flask application hooks.
+
+    Args:
+        flask_app: (todo): write your description
+    """
     from app.hooks.error import broad_exception_handler
     from app.hooks.request_context import after_request
 
@@ -25,6 +43,12 @@ def register_hooks(flask_app: Flask):
 
 
 def create_app(*config_cls) -> Flask:
+    """
+    Create a flask application.
+
+    Args:
+        config_cls: (todo): write your description
+    """
     config_cls = [
         config() if isinstance(config, type) else config for config in config_cls
     ]

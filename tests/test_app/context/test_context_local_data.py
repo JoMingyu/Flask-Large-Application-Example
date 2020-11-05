@@ -8,6 +8,12 @@ from tests import BaseTestCase
 
 class TestContextLocalData(BaseTestCase):
     def setUp(self):
+        """
+        Sets the test context.
+
+        Args:
+            self: (todo): write your description
+        """
         super(TestContextLocalData, self).setUp()
 
         self.test_context_local_data = _ContextLocalData("test", None)
@@ -15,6 +21,12 @@ class TestContextLocalData(BaseTestCase):
     @property
     @abstractmethod
     def proxy_object(self):
+        """
+        Get the proxy object.
+
+        Args:
+            self: (todo): write your description
+        """
         pass
 
     def _test_set(self):
@@ -63,19 +75,55 @@ class TestContextLocalData(BaseTestCase):
 class TestContextLocalDataOnGObject(TestContextLocalData):
     @property
     def proxy_object(self):
+        """
+        Return a proxy object.
+
+        Args:
+            self: (todo): write your description
+        """
         return g
 
     def test_set(self):
+        """
+        Sets the test test test test_set.
+
+        Args:
+            self: (todo): write your description
+        """
         self._test_set()
 
     def test_set_outside_context(self):
+        """
+        Sets the test context.
+
+        Args:
+            self: (todo): write your description
+        """
         self._test_set_outside_context()
 
     def test_get(self):
+        """
+        Get test test test test.
+
+        Args:
+            self: (todo): write your description
+        """
         self._test_get()
 
     def test_get_outside_context(self):
+        """
+        Gets the test context.
+
+        Args:
+            self: (todo): write your description
+        """
         self._test_get_outside_context()
 
     def test_get_default_value(self):
+        """
+        Returns the test value
+
+        Args:
+            self: (todo): write your description
+        """
         self._test_get_default_value()

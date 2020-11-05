@@ -9,6 +9,12 @@ from config.db_config import LocalDBConfig
 
 class BaseTestCase(TestCase):
     def setUp(self):
+        """
+        Sets the configuration
+
+        Args:
+            self: (todo): write your description
+        """
         self.app = create_app(LocalLevelConfig, LocalDBConfig)
         self.client = self.app.test_client()
 
@@ -21,6 +27,12 @@ class BaseTestCase(TestCase):
         self.query_string = dict()
 
     def request(self) -> Response:
+        """
+        Make a request.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.client.open(
             method=self.method,
             path=self.path.format(**self.path_parameters),
