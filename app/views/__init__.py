@@ -1,5 +1,22 @@
+from typing import Union
+
 from flask import Blueprint, Flask
-from flask_restful import Api
+from flask_restful import Api, output_json
+from pydantic import BaseModel
+
+
+def _pydantic_safe_output_json(data: Union[BaseModel, dict, list], code, headers=None):
+    if isinstance(data, BaseModel):
+        data = data.dict()
+
+    return output_json(data, code, headers)
+
+
+class _Api(Api):
+    def __init__(self, *args, **kwargs):
+        super(_Api, self).__init__(*args, **kwargs)
+
+        self.representations = {'application/json': _pydantic_safe_output_json}
 
 
 def route(flask_app: Flask):
@@ -13,7 +30,7 @@ def route(flask_app: Flask):
 
     # - blueprint, api object initialize
     api_blueprint = Blueprint("api", __name__)
-    api = Api(api_blueprint)
+    api = _Api(api_blueprint)
 
     # - route
     api.add_resource(SampleAPI, "/sample")
