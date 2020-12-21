@@ -1,16 +1,15 @@
 import json
-from typing import Type
 
 from pydantic import BaseModel, ValidationError, constr
 
 from app.context import context_property
-from app.decorators.validation import validate_with_pydantic, PayloadLocation
+from app.decorators.validation import validate
 from tests import BaseTestCase
 
 
-class TestValidateWithPydantic(BaseTestCase):
+class TestValidate(BaseTestCase):
     """
-    validate_with_schematics로 데코레이팅된 함수를 만들고,
+    validate로 데코레이팅된 함수를 만들고,
     요청 데이터와 함께 request context를 열어서 이를 호출하는 방식으로 테스트를 진행합니다.
     """
 
@@ -18,71 +17,84 @@ class TestValidateWithPydantic(BaseTestCase):
         foo: constr(min_length=1)
 
     def setUp(self):
-        super(TestValidateWithPydantic, self).setUp()
+        super(TestValidate, self).setUp()
 
     def initialize_function_and_call(
         self,
-        payload_location: PayloadLocation,
-        schema: Type[BaseModel] = TestSchema,
-        json_force_load: bool = False,
+        decorator_kwargs: dict = None,
+        handler_kwargs: dict = None
     ):
         """
         인자 정보를 통해 `validate_with_pydantic`으로 데코레이팅된 함수를 생성하고, 호출합니다.
         """
 
-        @validate_with_pydantic(
-            payload_location=payload_location,
-            model=schema,
-            json_force_load=json_force_load,
+        if decorator_kwargs is None:
+            decorator_kwargs = {}
+
+        if handler_kwargs is None:
+            handler_kwargs = {}
+
+        @validate(
+            **decorator_kwargs
         )
-        def handler():
+        def handler(**kwargs):
             pass
 
-        handler()
+        handler(**handler_kwargs)
 
-    def test_validation_pass_with_payload_location_args(self):
-        with self.app.test_request_context(query_string={"foo": "bar"}):
-            self.initialize_function_and_call(PayloadLocation.ARGS)
+    def test_path_params_validation(self):
+        with self.app.test_request_context():
+            self.initialize_function_and_call(
+                decorator_kwargs={'path_params': self.TestSchema},
+                handler_kwargs={'foo': 'bar'}
+            )
+            self.assertEqual(self.TestSchema(foo='bar'), context_property.request_path_params)
 
-    def test_validation_pass_with_payload_location_json(self):
-        with self.app.test_request_context(json={"foo": "bar"}):
-            self.initialize_function_and_call(PayloadLocation.JSON)
-
-    def test_validation_error_with_payload_location_args(self):
-        with self.app.test_request_context(query_string={"foo": ""}):
-            with self.assertRaises(ValidationError) as e:
-                self.initialize_function_and_call(PayloadLocation.ARGS)
-
-    def test_validation_error_with_payload_location_json(self):
-        with self.app.test_request_context(json={"foo": ""}):
+    def test_path_params_validation_error(self):
+        with self.app.test_request_context():
             with self.assertRaises(ValidationError):
-                self.initialize_function_and_call(PayloadLocation.JSON)
+                self.initialize_function_and_call(
+                    decorator_kwargs={'path_params': self.TestSchema},
+                    handler_kwargs={'foo': ''}
+                )
 
-    def test_context_property_binding_with_payload_location_args(self):
-        with self.app.test_request_context(query_string={"foo": "bar"}):
-            self.initialize_function_and_call(PayloadLocation.ARGS)
-            self.assertEqual(
-                self.TestSchema(foo="bar"), context_property.request_payload
-            )
+            self.assertIsNone(context_property.request_path_params)
 
-    def test_context_property_binding_with_payload_location_json(self):
-        with self.app.test_request_context(json={"foo": "bar"}):
-            self.initialize_function_and_call(PayloadLocation.JSON)
-            self.assertEqual(
-                self.TestSchema(foo="bar"), context_property.request_payload
+    def test_query_params_validation(self):
+        with self.app.test_request_context(query_string={'foo': 'bar'}):
+            self.initialize_function_and_call(
+                decorator_kwargs={'query_params': self.TestSchema},
             )
+            self.assertEqual(self.TestSchema(foo='bar'), context_property.request_query_params)
+
+    def test_query_params_validation_error(self):
+        with self.app.test_request_context(query_string={'foo': ''}):
+            with self.assertRaises(ValidationError):
+                self.initialize_function_and_call(
+                    decorator_kwargs={'query_params': self.TestSchema},
+                )
+
+            self.assertIsNone(context_property.request_query_params)
+
+    def test_json_validation(self):
+        with self.app.test_request_context(json={'foo': 'bar'}):
+            self.initialize_function_and_call(
+                decorator_kwargs={'json': self.TestSchema},
+            )
+            self.assertEqual(self.TestSchema(foo='bar'), context_property.request_json)
+
+    def test_json_validation_error(self):
+        with self.app.test_request_context(json={'foo': ''}):
+            with self.assertRaises(ValidationError):
+                self.initialize_function_and_call(
+                    decorator_kwargs={'json': self.TestSchema},
+                )
+
+            self.assertIsNone(context_property.request_query_params)
 
     def test_json_force_load(self):
         with self.app.test_request_context(data=json.dumps({"foo": "bar"})):
-            # TODO
-            # self.initialize_function_and_call(
-            #     PayloadLocation.JSON, json_force_load=False
-            # )
-            # print(context_property.request_payload)
-
             self.initialize_function_and_call(
-                PayloadLocation.JSON, json_force_load=True
+                decorator_kwargs={'json': self.TestSchema, 'json_force_load': True},
             )
-            self.assertEqual(
-                self.TestSchema(foo="bar"), context_property.request_payload
-            )
+            self.assertEqual(self.TestSchema(foo='bar'), context_property.request_json)

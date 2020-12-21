@@ -1,6 +1,5 @@
-from enum import Enum
 from functools import wraps
-from typing import Type
+from typing import Type, Optional
 
 from flask import request
 from pydantic import BaseModel, ValidationError
@@ -8,39 +7,48 @@ from pydantic import BaseModel, ValidationError
 from app.context import context_property
 
 
-class PayloadLocation(Enum):
-    ARGS = "args"
-    JSON = "json"
+def _validate(payload: dict, model: Type[BaseModel]) -> Optional[BaseModel]:
+    try:
+        instance = model(**payload)
+    except ValidationError:
+        raise
+    except:
+        instance = None
+
+    return instance
 
 
-def validate_with_pydantic(
+def validate(
     *,
-    payload_location: PayloadLocation,
-    model: Type[BaseModel],
+    path_params: Type[BaseModel] = None,
+    query_params: Type[BaseModel] = None,
+    json: Type[BaseModel] = None,
     json_force_load: bool = False,
 ):
     def decorator(fn):
         @wraps(fn)
         def wrapper(*args, **kwargs):
-            if payload_location == PayloadLocation.JSON:
+            if path_params:
+                payload = kwargs
+                instance = _validate(payload, path_params)
+                context_property.request_path_params = instance
+
+            if query_params:
+                payload = request.args
+                instance = _validate(payload, query_params)
+                context_property.request_query_params = instance
+
+            if json:
                 if json_force_load:
                     payload = request.get_json(force=True)
                 else:
                     payload = request.json
-            else:
-                payload = request.args
 
                 if hasattr(payload, "to_dict"):
                     payload = payload.to_dict()
 
-            try:
-                instance = model(**payload)
-            except ValidationError:
-                raise
-            except:
-                instance = None
-
-            context_property.request_payload = instance
+                instance = _validate(payload, json)
+                context_property.request_json = instance
 
             return fn(*args, **kwargs)
 

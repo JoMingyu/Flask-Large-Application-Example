@@ -27,7 +27,9 @@ class TestContextProperty(BaseTestCase):
         """
 
         with self.app.test_request_context():
-            self.assertIsNone(context_property.request_payload)
+            self.assertIsNone(context_property.request_path_params)
+            self.assertIsNone(context_property.request_query_params)
+            self.assertIsNone(context_property.request_json)
 
     def test_request_payload_with_set(self):
         """
@@ -36,9 +38,13 @@ class TestContextProperty(BaseTestCase):
         """
 
         with self.app.test_request_context():
-            context_property.request_payload = 0
+            context_property.request_path_params = 0
+            context_property.request_query_params = 0
+            context_property.request_json = 0
 
-            self.assertEqual(0, context_property.request_payload)
+            self.assertEqual(0, context_property.request_path_params)
+            self.assertEqual(0, context_property.request_query_params)
+            self.assertEqual(0, context_property.request_json)
 
     def test_request_payload_raise_runtime_error_on_outside_context(self):
         """
@@ -46,5 +52,5 @@ class TestContextProperty(BaseTestCase):
         """
 
         with self.assertRaises(RuntimeError):
-            context_property.request_payload = 0
-            _ = context_property.request_payload
+            context_property.request_json = 0
+            _ = context_property.request_json

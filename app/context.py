@@ -18,7 +18,9 @@ class _ContextLocalData:
 
 class _ContextProperty:
     class ContextLocalData:
-        request_payload = _ContextLocalData("request_payload", None)
+        request_path_params = _ContextLocalData("request_path_params", None)
+        request_query_params = _ContextLocalData("request_query_params", None)
+        request_json = _ContextLocalData("request_json", None)
 
     @property
     def secret_key(self) -> str:
@@ -27,12 +29,28 @@ class _ContextProperty:
     # - request payload -
 
     @property
-    def request_payload(self) -> Optional[BaseModel]:
-        return self.ContextLocalData.request_payload.get(g)
+    def request_path_params(self) -> Optional[BaseModel]:
+        return self.ContextLocalData.request_path_params.get(g)
 
-    @request_payload.setter
-    def request_payload(self, value: Type[BaseModel]):
-        self.ContextLocalData.request_payload.set(g, value)
+    @request_path_params.setter
+    def request_path_params(self, value: Type[BaseModel]):
+        self.ContextLocalData.request_path_params.set(g, value)
+
+    @property
+    def request_query_params(self) -> Optional[BaseModel]:
+        return self.ContextLocalData.request_query_params.get(g)
+
+    @request_query_params.setter
+    def request_query_params(self, value: Type[BaseModel]):
+        self.ContextLocalData.request_query_params.set(g, value)
+
+    @property
+    def request_json(self) -> Optional[BaseModel]:
+        return self.ContextLocalData.request_json.get(g)
+
+    @request_json.setter
+    def request_json(self, value: Type[BaseModel]):
+        self.ContextLocalData.request_json.set(g, value)
 
 
 context_property = _ContextProperty()
