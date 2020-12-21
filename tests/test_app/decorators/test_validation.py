@@ -92,7 +92,16 @@ class TestValidate(BaseTestCase):
 
             self.assertIsNone(context_property.request_query_params)
 
-    def test_json_force_load(self):
+    def test_json_without_content_type(self):
+        with self.app.test_request_context(data=json.dumps({"foo": "bar"})):
+            with self.assertRaises(ValidationError):
+                self.initialize_function_and_call(
+                    decorator_kwargs={'json': self.TestSchema},
+                )
+
+            self.assertIsNone(context_property.request_query_params)
+
+    def test_json_without_content_type__with_json_force_load(self):
         with self.app.test_request_context(data=json.dumps({"foo": "bar"})):
             self.initialize_function_and_call(
                 decorator_kwargs={'json': self.TestSchema, 'json_force_load': True},

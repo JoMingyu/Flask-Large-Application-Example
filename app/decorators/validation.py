@@ -7,7 +7,10 @@ from pydantic import BaseModel, ValidationError
 from app.context import context_property
 
 
-def _validate(payload: dict, model: Type[BaseModel]) -> Optional[BaseModel]:
+def _validate(payload: Optional[dict], model: Type[BaseModel]) -> Optional[BaseModel]:
+    if payload is None:
+        payload = {}
+
     try:
         instance = model(**payload)
     except ValidationError:
